@@ -1,0 +1,47 @@
+name: PortoBusApp
+options:
+  bundleIdPrefix: com.portobus
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+
+packages:
+  PortoBusKit:
+    path: PortoBusKit
+
+settings:
+  base:
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  PortoBusApp:
+    type: application
+    platform: iOS
+    sources:
+      - path: PortoBusApp
+    dependencies:
+      - package: PortoBusKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.portobus.app
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait"
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Porto Bus uses your location to show which buses you can catch on foot from where you are."
+        SWIFT_STRICT_CONCURRENCY: complete
+    info:
+      path: PortoBusApp/Info.plist
+      properties:
+        # An (empty) UILaunchScreen dict opts the app into native full-screen
+        # rendering. Without it iOS letterboxes the app onto a legacy canvas,
+        # which broke the bottom-anchored layout.
+        UILaunchScreen: {}
+        # LAN-only for now: allow cleartext HTTP to the dev API on the local
+        # network. NSAllowsLocalNetworking permits http:// to .local / RFC-1918
+        # hosts without pinning a specific IP, so changing the Mac's address in
+        # Settings doesn't need an Info.plist edit. Revisit when the API is
+        # hosted over HTTPS — this exception should then be removed.
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true

@@ -1,0 +1,32 @@
+{
+  "stop_code": "CMO",
+  "stop_name": "CARMO",
+  "last_updated": "2026-08-13T16:14:00+01:00",
+  "data_source": "realtime",
+  "arrivals": [
+    {
+      "line": "305",
+      "destination": "Cordoaria",
+      "arrival_minutes": 6,
+      "estimated_arrival_time": "2026-08-13T16:20:00+01:00",
+      "scheduled_arrival_time": "2026-08-13T16:20:00+01:00",
+      "status": "ON_TIME",
+      "delay_minutes": 0.8,
+      "color": "#417DBD",
+      "text_color": "#FFFFFF",
+      "trip_id": "T-305-1"
+    },
+    {
+      "line": "300",
+      "destination": "Aliados",
+      "arrival_minutes": null,
+      "estimated_arrival_time": null,
+      "scheduled_arrival_time": null,
+      "status": "SURPRISE_STATUS",
+      "delay_minutes": null,
+      "color": null,
+      "text_color": null,
+      "trip_id": null
+    }
+  ]
+}

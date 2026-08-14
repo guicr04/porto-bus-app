@@ -1,0 +1,47 @@
+{
+  "origin": { "lat": 41.1496, "lon": -8.6109 },
+  "walk_minutes": 10,
+  "generated_at": "2026-08-13T16:14:00+01:00",
+  "stops_considered": 14,
+  "stops_truncated": true,
+  "stops_polled": [
+    { "stop_code": "CMO", "name": "CARMO", "distance_meters": 180, "walk_minutes": 4, "ok": true },
+    { "stop_code": "COR", "name": "CORDOARIA", "distance_meters": 195, "walk_minutes": 4, "ok": false }
+  ],
+  "departures": [
+    {
+      "line": "305",
+      "destination": "Cordoaria",
+      "realtime": true,
+      "data_source": "realtime",
+      "stop_code": "CMO",
+      "stop_name": "CARMO",
+      "walk_minutes": 4,
+      "distance_meters": 180,
+      "eta_minutes": 6,
+      "leave_in_minutes": 2,
+      "catchable": true,
+      "status": "ON_TIME",
+      "delay_minutes": 0,
+      "color": "#417DBD",
+      "text_color": "#FFFFFF"
+    },
+    {
+      "line": "300",
+      "destination": "Aliados - H.S.João",
+      "realtime": true,
+      "data_source": "realtime",
+      "stop_code": "CMO",
+      "stop_name": "CARMO",
+      "walk_minutes": 4,
+      "distance_meters": 180,
+      "eta_minutes": 0,
+      "leave_in_minutes": -4,
+      "catchable": false,
+      "status": "DELAYED",
+      "delay_minutes": 5,
+      "color": "#417DBD",
+      "text_color": "#FFFFFF"
+    }
+  ]
+}

@@ -1,0 +1,520 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01A96B92FC8487FABE829B4D /* PortoBusKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0CDF44E08CB4D7DB3D00FDD4 /* PortoBusKit */; };
+		1239D322A9B88E1F09E0A6EB /* StopDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0E2D45E2A79B1F6204EC4A /* StopDetailViewModel.swift */; };
+		12CA737B48B860DB4D6CCA77 /* LoadStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E70D18BA1221C6CA3868481 /* LoadStateView.swift */; };
+		14DE2DB57552786DAB79A95F /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115B6E7BCE6BC24375769F9D /* BoardView.swift */; };
+		183AA18932B1FA1B16F26FB3 /* DeparturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3676D1367E1E50F1749A3 /* DeparturesView.swift */; };
+		1F765E8A0E19E736E264B503 /* MockPortoBusClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CCCDC7D79D73643940913E /* MockPortoBusClient.swift */; };
+		1F8BA41B6B8FDB513EB04CEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08AEC56630A13011B374AF0 /* Assets.xcassets */; };
+		291B50074F421431093B592D /* StopsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F6F43F906C931FB965CB16 /* StopsView.swift */; };
+		35964440B8FF700A0FE789F7 /* StopsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A0FAA5EFF4ECAA24A8B5D4 /* StopsViewModel.swift */; };
+		4B00ABEF375AEA15A50EB542 /* FloatingTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11058E6E980A7EAB61C1876 /* FloatingTabBar.swift */; };
+		4E2717197913D3DABCA545EA /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAD3C828E5FD94D3108DFEF /* AppTab.swift */; };
+		531F4B40EE1213FE849300F4 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA288A57C0A640BBD95F5CD /* Route.swift */; };
+		6530F52F860729571229559D /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B120710D54E1050187514DB /* InfoView.swift */; };
+		76A5FA0F89A7BC2A9627CA27 /* LineBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3746526D2379F7814B237A2 /* LineBadge.swift */; };
+		93B3435D2E271279C5E2DB0E /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A1C1338D56CD6F02EB8A2D /* AppServices.swift */; };
+		9B07FB7FD3F97D0D4EB48ABC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0781AC344D14538AF1EDACA /* SettingsView.swift */; };
+		B74A46605E2D43AE9C656A39 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B25A5CEA7258CEE7BB0EF2 /* Color+Hex.swift */; };
+		B926BA1FDC3758256E9748B9 /* PortoBusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA79CED0ED8C46D8EAF1189 /* PortoBusApp.swift */; };
+		E0773DCDBFFA0C09FB360B55 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3513E9F779BB6A8DE772063B /* RootView.swift */; };
+		EC66166977365990D6DF9113 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741C10C98D7CF7489F3C4BE6 /* AppSettings.swift */; };
+		EF60FBDBDD1E959AB9E21ABB /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E533FD43601F39820C906 /* BoardViewModel.swift */; };
+		F0E48249BA1F4AFB97DD9440 /* DeparturesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683327D58EAE90DFDD3114BA /* DeparturesViewModel.swift */; };
+		F3116B6C7F67B837347C645D /* LoadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470DDECAEB96D84895641D48 /* LoadState.swift */; };
+		F658CAE5D72B15EEF067C56E /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21B140C797F034EF1432D64 /* LocationProvider.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		112A2C991B0454E32A80966C /* PortoBusApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PortoBusApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		115B6E7BCE6BC24375769F9D /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
+		27F6F43F906C931FB965CB16 /* StopsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsView.swift; sourceTree = "<group>"; };
+		288B61284AD784DD0BABC7AF /* PortoBusKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PortoBusKit; path = PortoBusKit; sourceTree = SOURCE_ROOT; };
+		28CCCDC7D79D73643940913E /* MockPortoBusClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPortoBusClient.swift; sourceTree = "<group>"; };
+		2EAD3C828E5FD94D3108DFEF /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTab.swift; sourceTree = "<group>"; };
+		34A0FAA5EFF4ECAA24A8B5D4 /* StopsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsViewModel.swift; sourceTree = "<group>"; };
+		3513E9F779BB6A8DE772063B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		3E70D18BA1221C6CA3868481 /* LoadStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStateView.swift; sourceTree = "<group>"; };
+		464E533FD43601F39820C906 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
+		470DDECAEB96D84895641D48 /* LoadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadState.swift; sourceTree = "<group>"; };
+		4B120710D54E1050187514DB /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		53F3676D1367E1E50F1749A3 /* DeparturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeparturesView.swift; sourceTree = "<group>"; };
+		54A1C1338D56CD6F02EB8A2D /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
+		683327D58EAE90DFDD3114BA /* DeparturesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeparturesViewModel.swift; sourceTree = "<group>"; };
+		741C10C98D7CF7489F3C4BE6 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		84FB6E69068E65DBBF653DC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		ADA288A57C0A640BBD95F5CD /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		C08AEC56630A13011B374AF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D21B140C797F034EF1432D64 /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
+		E0781AC344D14538AF1EDACA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E7B25A5CEA7258CEE7BB0EF2 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		ED0E2D45E2A79B1F6204EC4A /* StopDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopDetailViewModel.swift; sourceTree = "<group>"; };
+		F11058E6E980A7EAB61C1876 /* FloatingTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTabBar.swift; sourceTree = "<group>"; };
+		F3746526D2379F7814B237A2 /* LineBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineBadge.swift; sourceTree = "<group>"; };
+		FEA79CED0ED8C46D8EAF1189 /* PortoBusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortoBusApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E306D59F4AB1E8416E81477E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01A96B92FC8487FABE829B4D /* PortoBusKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		01FA1A9790ED0FFFEDF049D9 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				2EAD3C828E5FD94D3108DFEF /* AppTab.swift */,
+				F11058E6E980A7EAB61C1876 /* FloatingTabBar.swift */,
+				3513E9F779BB6A8DE772063B /* RootView.swift */,
+				ADA288A57C0A640BBD95F5CD /* Route.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		1BEBBF6D4F414BA590AF1DD0 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				54A1C1338D56CD6F02EB8A2D /* AppServices.swift */,
+				741C10C98D7CF7489F3C4BE6 /* AppSettings.swift */,
+				470DDECAEB96D84895641D48 /* LoadState.swift */,
+				28CCCDC7D79D73643940913E /* MockPortoBusClient.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		1DD5294F87FB65E9105B7CDC /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E0781AC344D14538AF1EDACA /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		2B08FBD9205024A8C8C9BD1E /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				D21B140C797F034EF1432D64 /* LocationProvider.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		47398387463FE489927489FB /* Stops */ = {
+			isa = PBXGroup;
+			children = (
+				ED0E2D45E2A79B1F6204EC4A /* StopDetailViewModel.swift */,
+				27F6F43F906C931FB965CB16 /* StopsView.swift */,
+				34A0FAA5EFF4ECAA24A8B5D4 /* StopsViewModel.swift */,
+			);
+			path = Stops;
+			sourceTree = "<group>";
+		};
+		5A1B634F3F6D283FB3D79053 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				4B120710D54E1050187514DB /* InfoView.swift */,
+			);
+			path = Info;
+			sourceTree = "<group>";
+		};
+		7EE0852223F5AB25553C4722 /* PortoBusApp */ = {
+			isa = PBXGroup;
+			children = (
+				C08AEC56630A13011B374AF0 /* Assets.xcassets */,
+				84FB6E69068E65DBBF653DC2 /* Info.plist */,
+				FEA79CED0ED8C46D8EAF1189 /* PortoBusApp.swift */,
+				1BEBBF6D4F414BA590AF1DD0 /* Core */,
+				D27C86148172C8D1AD0D0459 /* Design */,
+				E1490B16EDBAD5F4C1158CBF /* Features */,
+				2B08FBD9205024A8C8C9BD1E /* Location */,
+				01FA1A9790ED0FFFEDF049D9 /* Navigation */,
+			);
+			path = PortoBusApp;
+			sourceTree = "<group>";
+		};
+		9588650D4DD26CC222A2EA27 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				115B6E7BCE6BC24375769F9D /* BoardView.swift */,
+				464E533FD43601F39820C906 /* BoardViewModel.swift */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		D27C86148172C8D1AD0D0459 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				E7B25A5CEA7258CEE7BB0EF2 /* Color+Hex.swift */,
+				F3746526D2379F7814B237A2 /* LineBadge.swift */,
+				3E70D18BA1221C6CA3868481 /* LoadStateView.swift */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		DA0D217299D7E9AB54300466 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				288B61284AD784DD0BABC7AF /* PortoBusKit */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		E1490B16EDBAD5F4C1158CBF /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				9588650D4DD26CC222A2EA27 /* Board */,
+				F29D8565E8CA65DC005432D4 /* Departures */,
+				5A1B634F3F6D283FB3D79053 /* Info */,
+				1DD5294F87FB65E9105B7CDC /* Settings */,
+				47398387463FE489927489FB /* Stops */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		F29D8565E8CA65DC005432D4 /* Departures */ = {
+			isa = PBXGroup;
+			children = (
+				53F3676D1367E1E50F1749A3 /* DeparturesView.swift */,
+				683327D58EAE90DFDD3114BA /* DeparturesViewModel.swift */,
+			);
+			path = Departures;
+			sourceTree = "<group>";
+		};
+		F8B95C1E009B9B1482277C04 = {
+			isa = PBXGroup;
+			children = (
+				DA0D217299D7E9AB54300466 /* Packages */,
+				7EE0852223F5AB25553C4722 /* PortoBusApp */,
+				FA5972618079A6257D736059 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FA5972618079A6257D736059 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				112A2C991B0454E32A80966C /* PortoBusApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		692ACA78E0C19B85A88D119F /* PortoBusApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ECFF02FF56C97A46CEE7F9D9 /* Build configuration list for PBXNativeTarget "PortoBusApp" */;
+			buildPhases = (
+				4F2DA5F3732F5528DCE1C303 /* Sources */,
+				6B412082A6B34C5780E53211 /* Resources */,
+				E306D59F4AB1E8416E81477E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PortoBusApp;
+			packageProductDependencies = (
+				0CDF44E08CB4D7DB3D00FDD4 /* PortoBusKit */,
+			);
+			productName = PortoBusApp;
+			productReference = 112A2C991B0454E32A80966C /* PortoBusApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		40BB52E0ECA9AF014C82CABE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					692ACA78E0C19B85A88D119F = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 78762C6F45243AEA580613DB /* Build configuration list for PBXProject "PortoBusApp" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F8B95C1E009B9B1482277C04;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B16FDDA4B0EF2E64B03ED01B /* XCLocalSwiftPackageReference "PortoBusKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = FA5972618079A6257D736059 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				692ACA78E0C19B85A88D119F /* PortoBusApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6B412082A6B34C5780E53211 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F8BA41B6B8FDB513EB04CEE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4F2DA5F3732F5528DCE1C303 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93B3435D2E271279C5E2DB0E /* AppServices.swift in Sources */,
+				EC66166977365990D6DF9113 /* AppSettings.swift in Sources */,
+				4E2717197913D3DABCA545EA /* AppTab.swift in Sources */,
+				14DE2DB57552786DAB79A95F /* BoardView.swift in Sources */,
+				EF60FBDBDD1E959AB9E21ABB /* BoardViewModel.swift in Sources */,
+				B74A46605E2D43AE9C656A39 /* Color+Hex.swift in Sources */,
+				183AA18932B1FA1B16F26FB3 /* DeparturesView.swift in Sources */,
+				F0E48249BA1F4AFB97DD9440 /* DeparturesViewModel.swift in Sources */,
+				4B00ABEF375AEA15A50EB542 /* FloatingTabBar.swift in Sources */,
+				6530F52F860729571229559D /* InfoView.swift in Sources */,
+				76A5FA0F89A7BC2A9627CA27 /* LineBadge.swift in Sources */,
+				F3116B6C7F67B837347C645D /* LoadState.swift in Sources */,
+				12CA737B48B860DB4D6CCA77 /* LoadStateView.swift in Sources */,
+				F658CAE5D72B15EEF067C56E /* LocationProvider.swift in Sources */,
+				1F765E8A0E19E736E264B503 /* MockPortoBusClient.swift in Sources */,
+				B926BA1FDC3758256E9748B9 /* PortoBusApp.swift in Sources */,
+				E0773DCDBFFA0C09FB360B55 /* RootView.swift in Sources */,
+				531F4B40EE1213FE849300F4 /* Route.swift in Sources */,
+				9B07FB7FD3F97D0D4EB48ABC /* SettingsView.swift in Sources */,
+				1239D322A9B88E1F09E0A6EB /* StopDetailViewModel.swift in Sources */,
+				291B50074F421431093B592D /* StopsView.swift in Sources */,
+				35964440B8FF700A0FE789F7 /* StopsViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0491C9049588F4521196A9FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = PortoBusApp/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Porto Bus uses your location to show which buses you can catch on foot from where you are.";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.portobus.app;
+				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		138E1F304256B51C2550BC6D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		F3D4AAB0F1FADD65398CDFF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		F84C129BC6863A5E1BD38CC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = PortoBusApp/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Porto Bus uses your location to show which buses you can catch on foot from where you are.";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.portobus.app;
+				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		78762C6F45243AEA580613DB /* Build configuration list for PBXProject "PortoBusApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3D4AAB0F1FADD65398CDFF1 /* Debug */,
+				138E1F304256B51C2550BC6D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		ECFF02FF56C97A46CEE7F9D9 /* Build configuration list for PBXNativeTarget "PortoBusApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F84C129BC6863A5E1BD38CC7 /* Debug */,
+				0491C9049588F4521196A9FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		B16FDDA4B0EF2E64B03ED01B /* XCLocalSwiftPackageReference "PortoBusKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = PortoBusKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0CDF44E08CB4D7DB3D00FDD4 /* PortoBusKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PortoBusKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 40BB52E0ECA9AF014C82CABE /* Project object */;
+}

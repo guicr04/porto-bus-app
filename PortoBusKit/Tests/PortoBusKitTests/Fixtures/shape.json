@@ -1,0 +1,9 @@
+{
+  "route_id": "300",
+  "direction_id": 0,
+  "coordinates": [
+    { "lat": 41.1496, "lng": -8.6109, "sequence": 0 },
+    { "lat": 41.1502, "lng": -8.6115, "sequence": 1 },
+    { "lat": 41.1510, "lng": -8.6120, "sequence": 2 }
+  ]
+}
