@@ -8,55 +8,65 @@
 
 /* Begin PBXBuildFile section */
 		01A96B92FC8487FABE829B4D /* PortoBusKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0CDF44E08CB4D7DB3D00FDD4 /* PortoBusKit */; };
-		1239D322A9B88E1F09E0A6EB /* StopDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0E2D45E2A79B1F6204EC4A /* StopDetailViewModel.swift */; };
+		01D6981DA84B2C128676802E /* LinesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD664525E32944C0BAFAC9E /* LinesViewModel.swift */; };
 		12CA737B48B860DB4D6CCA77 /* LoadStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E70D18BA1221C6CA3868481 /* LoadStateView.swift */; };
 		14DE2DB57552786DAB79A95F /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115B6E7BCE6BC24375769F9D /* BoardView.swift */; };
-		183AA18932B1FA1B16F26FB3 /* DeparturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3676D1367E1E50F1749A3 /* DeparturesView.swift */; };
+		176B9959902F532AC1BE4138 /* LineStopsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B4440F67BBAE02FA0ABABF /* LineStopsView.swift */; };
 		1F765E8A0E19E736E264B503 /* MockPortoBusClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CCCDC7D79D73643940913E /* MockPortoBusClient.swift */; };
 		1F8BA41B6B8FDB513EB04CEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08AEC56630A13011B374AF0 /* Assets.xcassets */; };
-		291B50074F421431093B592D /* StopsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F6F43F906C931FB965CB16 /* StopsView.swift */; };
-		35964440B8FF700A0FE789F7 /* StopsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A0FAA5EFF4ECAA24A8B5D4 /* StopsViewModel.swift */; };
 		4B00ABEF375AEA15A50EB542 /* FloatingTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11058E6E980A7EAB61C1876 /* FloatingTabBar.swift */; };
 		4E2717197913D3DABCA545EA /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAD3C828E5FD94D3108DFEF /* AppTab.swift */; };
 		531F4B40EE1213FE849300F4 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA288A57C0A640BBD95F5CD /* Route.swift */; };
 		6530F52F860729571229559D /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B120710D54E1050187514DB /* InfoView.swift */; };
+		71EA7455FB494BFDB4B027C8 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39506C670959CEF8CD1570DA /* FavoritesView.swift */; };
+		73DAA27E1EB939EE59083B70 /* StopDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5CB17420142AF7065A782 /* StopDetailViewModel.swift */; };
 		76A5FA0F89A7BC2A9627CA27 /* LineBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3746526D2379F7814B237A2 /* LineBadge.swift */; };
+		78DBD18CA20B13FF648D7BFB /* StopDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1706F67F59A68FBA57ADDD9F /* StopDetailView.swift */; };
+		85F5196B07AD4413AEE126E7 /* FavoriteSwipeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7845C8D2FEB2DC190C43BA6B /* FavoriteSwipeButton.swift */; };
+		8C0188041E1037232ACE4224 /* LineStopsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D734350A7B1DD242BC623829 /* LineStopsViewModel.swift */; };
 		93B3435D2E271279C5E2DB0E /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A1C1338D56CD6F02EB8A2D /* AppServices.swift */; };
 		9B07FB7FD3F97D0D4EB48ABC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0781AC344D14538AF1EDACA /* SettingsView.swift */; };
+		AABF3544F198CB64910FDD65 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30047CE6E2F79466DA7E2A04 /* FavoritesViewModel.swift */; };
 		B74A46605E2D43AE9C656A39 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B25A5CEA7258CEE7BB0EF2 /* Color+Hex.swift */; };
 		B926BA1FDC3758256E9748B9 /* PortoBusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA79CED0ED8C46D8EAF1189 /* PortoBusApp.swift */; };
 		E0773DCDBFFA0C09FB360B55 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3513E9F779BB6A8DE772063B /* RootView.swift */; };
 		EC66166977365990D6DF9113 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741C10C98D7CF7489F3C4BE6 /* AppSettings.swift */; };
+		EDB3C2F626B5F7CC3F860E17 /* LinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5069FF62391AECB09BB197 /* LinesView.swift */; };
 		EF60FBDBDD1E959AB9E21ABB /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E533FD43601F39820C906 /* BoardViewModel.swift */; };
-		F0E48249BA1F4AFB97DD9440 /* DeparturesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683327D58EAE90DFDD3114BA /* DeparturesViewModel.swift */; };
 		F3116B6C7F67B837347C645D /* LoadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470DDECAEB96D84895641D48 /* LoadState.swift */; };
 		F658CAE5D72B15EEF067C56E /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21B140C797F034EF1432D64 /* LocationProvider.swift */; };
+		F81D6A246F4A27DB75815CD8 /* FavoritesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE423264EE85FD443159CF9F /* FavoritesStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		112A2C991B0454E32A80966C /* PortoBusApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PortoBusApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08B4440F67BBAE02FA0ABABF /* LineStopsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineStopsView.swift; sourceTree = "<group>"; };
+		0CA5CB17420142AF7065A782 /* StopDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopDetailViewModel.swift; sourceTree = "<group>"; };
+		0F5069FF62391AECB09BB197 /* LinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesView.swift; sourceTree = "<group>"; };
+		0FD664525E32944C0BAFAC9E /* LinesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesViewModel.swift; sourceTree = "<group>"; };
+		112A2C991B0454E32A80966C /* PortoBusApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PortoBusApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		115B6E7BCE6BC24375769F9D /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
-		27F6F43F906C931FB965CB16 /* StopsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsView.swift; sourceTree = "<group>"; };
-		288B61284AD784DD0BABC7AF /* PortoBusKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PortoBusKit; path = PortoBusKit; sourceTree = SOURCE_ROOT; };
+		1706F67F59A68FBA57ADDD9F /* StopDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopDetailView.swift; sourceTree = "<group>"; };
+		288B61284AD784DD0BABC7AF /* PortoBusKit */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PortoBusKit; sourceTree = SOURCE_ROOT; };
 		28CCCDC7D79D73643940913E /* MockPortoBusClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPortoBusClient.swift; sourceTree = "<group>"; };
 		2EAD3C828E5FD94D3108DFEF /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTab.swift; sourceTree = "<group>"; };
-		34A0FAA5EFF4ECAA24A8B5D4 /* StopsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopsViewModel.swift; sourceTree = "<group>"; };
+		30047CE6E2F79466DA7E2A04 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		3513E9F779BB6A8DE772063B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		39506C670959CEF8CD1570DA /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		3E70D18BA1221C6CA3868481 /* LoadStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStateView.swift; sourceTree = "<group>"; };
 		464E533FD43601F39820C906 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
 		470DDECAEB96D84895641D48 /* LoadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadState.swift; sourceTree = "<group>"; };
 		4B120710D54E1050187514DB /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
-		53F3676D1367E1E50F1749A3 /* DeparturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeparturesView.swift; sourceTree = "<group>"; };
 		54A1C1338D56CD6F02EB8A2D /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
-		683327D58EAE90DFDD3114BA /* DeparturesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeparturesViewModel.swift; sourceTree = "<group>"; };
 		741C10C98D7CF7489F3C4BE6 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		7845C8D2FEB2DC190C43BA6B /* FavoriteSwipeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSwipeButton.swift; sourceTree = "<group>"; };
 		84FB6E69068E65DBBF653DC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		ADA288A57C0A640BBD95F5CD /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		C08AEC56630A13011B374AF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE423264EE85FD443159CF9F /* FavoritesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStore.swift; sourceTree = "<group>"; };
 		D21B140C797F034EF1432D64 /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
+		D734350A7B1DD242BC623829 /* LineStopsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineStopsViewModel.swift; sourceTree = "<group>"; };
 		E0781AC344D14538AF1EDACA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E7B25A5CEA7258CEE7BB0EF2 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
-		ED0E2D45E2A79B1F6204EC4A /* StopDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopDetailViewModel.swift; sourceTree = "<group>"; };
 		F11058E6E980A7EAB61C1876 /* FloatingTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTabBar.swift; sourceTree = "<group>"; };
 		F3746526D2379F7814B237A2 /* LineBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineBadge.swift; sourceTree = "<group>"; };
 		FEA79CED0ED8C46D8EAF1189 /* PortoBusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortoBusApp.swift; sourceTree = "<group>"; };
@@ -90,10 +100,20 @@
 			children = (
 				54A1C1338D56CD6F02EB8A2D /* AppServices.swift */,
 				741C10C98D7CF7489F3C4BE6 /* AppSettings.swift */,
+				CE423264EE85FD443159CF9F /* FavoritesStore.swift */,
 				470DDECAEB96D84895641D48 /* LoadState.swift */,
 				28CCCDC7D79D73643940913E /* MockPortoBusClient.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		1C2E7611391B9EA7CB7F6D2D /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				39506C670959CEF8CD1570DA /* FavoritesView.swift */,
+				30047CE6E2F79466DA7E2A04 /* FavoritesViewModel.swift */,
+			);
+			path = Favorites;
 			sourceTree = "<group>";
 		};
 		1DD5294F87FB65E9105B7CDC /* Settings */ = {
@@ -112,22 +132,25 @@
 			path = Location;
 			sourceTree = "<group>";
 		};
-		47398387463FE489927489FB /* Stops */ = {
-			isa = PBXGroup;
-			children = (
-				ED0E2D45E2A79B1F6204EC4A /* StopDetailViewModel.swift */,
-				27F6F43F906C931FB965CB16 /* StopsView.swift */,
-				34A0FAA5EFF4ECAA24A8B5D4 /* StopsViewModel.swift */,
-			);
-			path = Stops;
-			sourceTree = "<group>";
-		};
 		5A1B634F3F6D283FB3D79053 /* Info */ = {
 			isa = PBXGroup;
 			children = (
 				4B120710D54E1050187514DB /* InfoView.swift */,
 			);
 			path = Info;
+			sourceTree = "<group>";
+		};
+		7789AF0ADD03325EF53A0C92 /* Lines */ = {
+			isa = PBXGroup;
+			children = (
+				08B4440F67BBAE02FA0ABABF /* LineStopsView.swift */,
+				D734350A7B1DD242BC623829 /* LineStopsViewModel.swift */,
+				0F5069FF62391AECB09BB197 /* LinesView.swift */,
+				0FD664525E32944C0BAFAC9E /* LinesViewModel.swift */,
+				1706F67F59A68FBA57ADDD9F /* StopDetailView.swift */,
+				0CA5CB17420142AF7065A782 /* StopDetailViewModel.swift */,
+			);
+			path = Lines;
 			sourceTree = "<group>";
 		};
 		7EE0852223F5AB25553C4722 /* PortoBusApp */ = {
@@ -158,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				E7B25A5CEA7258CEE7BB0EF2 /* Color+Hex.swift */,
+				7845C8D2FEB2DC190C43BA6B /* FavoriteSwipeButton.swift */,
 				F3746526D2379F7814B237A2 /* LineBadge.swift */,
 				3E70D18BA1221C6CA3868481 /* LoadStateView.swift */,
 			);
@@ -176,21 +200,12 @@
 			isa = PBXGroup;
 			children = (
 				9588650D4DD26CC222A2EA27 /* Board */,
-				F29D8565E8CA65DC005432D4 /* Departures */,
+				1C2E7611391B9EA7CB7F6D2D /* Favorites */,
 				5A1B634F3F6D283FB3D79053 /* Info */,
+				7789AF0ADD03325EF53A0C92 /* Lines */,
 				1DD5294F87FB65E9105B7CDC /* Settings */,
-				47398387463FE489927489FB /* Stops */,
 			);
 			path = Features;
-			sourceTree = "<group>";
-		};
-		F29D8565E8CA65DC005432D4 /* Departures */ = {
-			isa = PBXGroup;
-			children = (
-				53F3676D1367E1E50F1749A3 /* DeparturesView.swift */,
-				683327D58EAE90DFDD3114BA /* DeparturesViewModel.swift */,
-			);
-			path = Departures;
 			sourceTree = "<group>";
 		};
 		F8B95C1E009B9B1482277C04 = {
@@ -243,7 +258,6 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					692ACA78E0C19B85A88D119F = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -292,11 +306,17 @@
 				14DE2DB57552786DAB79A95F /* BoardView.swift in Sources */,
 				EF60FBDBDD1E959AB9E21ABB /* BoardViewModel.swift in Sources */,
 				B74A46605E2D43AE9C656A39 /* Color+Hex.swift in Sources */,
-				183AA18932B1FA1B16F26FB3 /* DeparturesView.swift in Sources */,
-				F0E48249BA1F4AFB97DD9440 /* DeparturesViewModel.swift in Sources */,
+				85F5196B07AD4413AEE126E7 /* FavoriteSwipeButton.swift in Sources */,
+				F81D6A246F4A27DB75815CD8 /* FavoritesStore.swift in Sources */,
+				71EA7455FB494BFDB4B027C8 /* FavoritesView.swift in Sources */,
+				AABF3544F198CB64910FDD65 /* FavoritesViewModel.swift in Sources */,
 				4B00ABEF375AEA15A50EB542 /* FloatingTabBar.swift in Sources */,
 				6530F52F860729571229559D /* InfoView.swift in Sources */,
 				76A5FA0F89A7BC2A9627CA27 /* LineBadge.swift in Sources */,
+				176B9959902F532AC1BE4138 /* LineStopsView.swift in Sources */,
+				8C0188041E1037232ACE4224 /* LineStopsViewModel.swift in Sources */,
+				EDB3C2F626B5F7CC3F860E17 /* LinesView.swift in Sources */,
+				01D6981DA84B2C128676802E /* LinesViewModel.swift in Sources */,
 				F3116B6C7F67B837347C645D /* LoadState.swift in Sources */,
 				12CA737B48B860DB4D6CCA77 /* LoadStateView.swift in Sources */,
 				F658CAE5D72B15EEF067C56E /* LocationProvider.swift in Sources */,
@@ -305,9 +325,8 @@
 				E0773DCDBFFA0C09FB360B55 /* RootView.swift in Sources */,
 				531F4B40EE1213FE849300F4 /* Route.swift in Sources */,
 				9B07FB7FD3F97D0D4EB48ABC /* SettingsView.swift in Sources */,
-				1239D322A9B88E1F09E0A6EB /* StopDetailViewModel.swift in Sources */,
-				291B50074F421431093B592D /* StopsView.swift in Sources */,
-				35964440B8FF700A0FE789F7 /* StopsViewModel.swift in Sources */,
+				78DBD18CA20B13FF648D7BFB /* StopDetailView.swift in Sources */,
+				73DAA27E1EB939EE59083B70 /* StopDetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +338,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 6K8KYNW8Z8;
 				INFOPLIST_FILE = PortoBusApp/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Porto Bus connects to the Porto Bus API running on your local network.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Porto Bus uses your location to show which buses you can catch on foot from where you are.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -465,7 +486,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 6K8KYNW8Z8;
 				INFOPLIST_FILE = PortoBusApp/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Porto Bus connects to the Porto Bus API running on your local network.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Porto Bus uses your location to show which buses you can catch on foot from where you are.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -2,18 +2,26 @@ import Foundation
 import Observation
 import PortoBusKit
 
-/// One arrival at a stop, preformatted. Tapping it opens the combined Departures
-/// screen for that line — hence the embedded route.
+/// One arrival at a stop, preformatted. Informational only — the station's
+/// live board (up to ~1h ahead per line) is already the full picture, so
+/// rows don't drill into anything further. The ETA is coloured by
+/// `tone` (on-time/delayed), same rule and shared helper as Board.
 struct StopArrivalDisplay: Identifiable, Hashable {
     let id: String
     let line: String
     let destination: String
     let etaText: String
+    let tone: ArrivalTone
     let colorHex: String?
     let textColorHex: String?
-    let route: DeparturesRoute
 }
 
+/// A stop's live board, across every line serving it — not filtered to one
+/// line. Reached from the Lines flow: Lines -> a line -> one of its stops.
+/// The point of landing here rather than jumping straight to a single line's
+/// Departures is exactly what a shared stop needs: if Santa Justa serves 701,
+/// 702 and 703, all three should be visible, not just the one you drilled in
+/// from.
 @MainActor
 @Observable
 final class StopDetailViewModel {
@@ -37,15 +45,9 @@ final class StopDetailViewModel {
                 line: a.line,
                 destination: a.destination,
                 etaText: BoardViewModel.etaText(a.arrivalMinutes),
+                tone: BoardViewModel.arrivalTone(forStatus: a.status),
                 colorHex: a.color,
-                textColorHex: a.textColor,
-                route: DeparturesRoute(
-                    stopCode: stop.stopCode,
-                    line: a.line,
-                    destination: a.destination,
-                    colorHex: a.color,
-                    textColorHex: a.textColor
-                )
+                textColorHex: a.textColor
             )
         }
     }

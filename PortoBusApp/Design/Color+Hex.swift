@@ -34,4 +34,14 @@ extension Color {
         }
         self.init(.sRGB, red: r, green: g, blue: b, opacity: a)
     }
+
+    /// Maps an arrival's on-time/delayed tone to the colour its ETA renders
+    /// in. See `ArrivalTone` for why this replaced a separate live indicator.
+    init(tone: ArrivalTone) {
+        switch tone {
+        case .onTime: self = .green
+        case .delayed: self = .red
+        case .unknown: self = .primary
+        }
+    }
 }

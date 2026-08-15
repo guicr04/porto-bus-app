@@ -64,6 +64,17 @@ public struct DirectionStop: Codable, Sendable, Hashable, Identifiable {
     public let description: String?
 
     public var id: String { stopId }
+
+    public init(stopId: String, stopName: String, stopCode: String, zoneId: String?, lat: Double?, lon: Double?, sequence: Int, description: String?) {
+        self.stopId = stopId
+        self.stopName = stopName
+        self.stopCode = stopCode
+        self.zoneId = zoneId
+        self.lat = lat
+        self.lon = lon
+        self.sequence = sequence
+        self.description = description
+    }
 }
 
 public struct RouteDirectionStops: Codable, Sendable, Hashable {

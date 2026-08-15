@@ -30,6 +30,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.portobus.app
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait"
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Porto Bus uses your location to show which buses you can catch on foot from where you are."
+        INFOPLIST_KEY_NSLocalNetworkUsageDescription: "Porto Bus connects to the Porto Bus API running on your local network."
         SWIFT_STRICT_CONCURRENCY: complete
     info:
       path: PortoBusApp/Info.plist

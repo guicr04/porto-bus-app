@@ -29,11 +29,11 @@ struct RootView: View {
         case .board:
             NavigationStack { BoardScreen() }
         case .lines:
-            NavigationStack { ComingSoonView(tab: .lines, note: "Browse every line, its stops in order, and the next arrival at each — see DESIGN.md §10.1.") }
+            NavigationStack { LinesScreen() }
         case .map:
             NavigationStack { ComingSoonView(tab: .map, note: "Live route map with vehicle positions — needs an API endpoint that infers positions from trip_id (DESIGN.md §10.2).") }
-        case .stops:
-            NavigationStack { StopsScreen() }
+        case .favorites:
+            NavigationStack { FavoritesScreen() }
         case .info:
             NavigationStack { InfoView() }
         }

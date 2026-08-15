@@ -73,6 +73,12 @@ hosted over HTTPS.
 
 ## Status
 
-v1 in progress. Board, Departures and Stops are built; Lines and Map are present
-in the tab bar as "coming soon" placeholders (DESIGN.md §10). The Home Screen
-widget is planned next.
+**Board, Lines, and Favorites are built and running against the live API.**
+Map is a placeholder tab (DESIGN.md §11.1) — it's next, and needs a new
+endpoint in `porto-bus-api` before there's anything to render. The Home Screen
+widget hasn't been started.
+
+Two screens from the original plan were built and then removed once real usage
+showed they were redundant — a combined single-line Departures view, and a
+Stops-by-name search tab (now Favorites instead). See DESIGN.md §6.2 and §6.5
+for why.

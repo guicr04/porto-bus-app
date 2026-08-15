@@ -30,7 +30,6 @@ struct BoardScreen: View {
             }
         }
         .navigationDestination(for: Route.self) { $0.destination }
-        .navigationDestination(for: DeparturesRoute.self) { DeparturesView(route: $0) }
         .task(id: scenePhase) { await runRefreshLoop() }
     }
 
@@ -86,10 +85,15 @@ private struct BoardContent: View {
                         .listRowSeparator(.hidden)
                 }
 
+                // Informational, not a NavigationLink: the ETA is the whole
+                // answer this row exists to give. Drilling into a single
+                // line's schedule from here duplicated what the Lines tab
+                // already shows for that stop.
                 ForEach(model.rows) { row in
-                    NavigationLink(value: DeparturesRoute(row: row)) {
-                        BoardRowView(row: row)
-                    }
+                    BoardRowView(row: row)
+                        .swipeActions(edge: .leading) {
+                            FavoriteSwipeButton(stop: Stop(stopCode: row.stopCode, name: row.stopName, lat: nil, lon: nil))
+                        }
                 }
             }
             .listStyle(.plain)
@@ -137,7 +141,9 @@ private struct RefreshFailedBanner: View {
 
 /// One board row: line badge, destination + origin stop, and the bus's ETA as
 /// the dominant figure (DESIGN.md §6.1 — the arrival is a fact; the walk is
-/// supporting context the rider judges for themselves).
+/// supporting context the rider judges for themselves). The ETA itself is
+/// coloured by on-time/delayed status rather than carrying a separate live
+/// indicator — see `ArrivalTone`.
 struct BoardRowView: View {
     let row: BoardRowDisplay
 
@@ -161,17 +167,10 @@ struct BoardRowView: View {
 
             Spacer(minLength: 8)
 
-            VStack(alignment: .trailing, spacing: 2) {
-                Text(row.etaText)
-                    .font(.title3.weight(.semibold))
-                    .monospacedDigit()
-                if row.isRealtime {
-                    HStack(spacing: 3) {
-                        Circle().fill(.green).frame(width: 6, height: 6)
-                        Text("live").font(.caption2).foregroundStyle(.secondary)
-                    }
-                }
-            }
+            Text(row.etaText)
+                .font(.title3.weight(.semibold))
+                .monospacedDigit()
+                .foregroundStyle(Color(tone: row.tone))
         }
         .padding(.vertical, 4)
         .opacity(row.catchable ? 1 : 0.5)

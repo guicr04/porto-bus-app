@@ -10,6 +10,8 @@ struct MockPortoBusClient: PortoBusClient {
     var stopsResult: [Stop] = Stop.previews
     var realtimeResult: RealtimeStop = .preview
     var departuresResult: StopLineDepartures = .preview
+    var linesResult: [Line] = Line.previews
+    var lineStopsResult: RouteDirectionStops = .preview
     /// When set, every call throws this instead of returning — for error-state previews.
     var error: APIError?
 
@@ -36,9 +38,9 @@ struct MockPortoBusClient: PortoBusClient {
     func stopSchedule(stop code: String, routeId: String, serviceId: String, directionId: Int) async throws -> StopSchedule {
         try result(StopSchedule(stopCode: code, routeId: routeId, directionId: directionId, serviceId: serviceId, departures: []))
     }
-    func lines() async throws -> [Line] { try result([]) }
+    func lines() async throws -> [Line] { try result(linesResult) }
     func lineStops(line: String, directionId: Int) async throws -> RouteDirectionStops {
-        try result(RouteDirectionStops(routeId: line, directionId: directionId, stops: [], timepointStopIds: []))
+        try result(lineStopsResult)
     }
     func lineShape(line: String, directionId: Int) async throws -> RouteShape {
         try result(RouteShape(routeId: line, directionId: directionId, coordinates: []))
@@ -104,5 +106,29 @@ extension StopLineDepartures {
             CombinedDeparture(line: "300", destination: "Aliados", source: .scheduled, etaMinutes: 24, time: "16:38", status: nil, delayMinutes: nil, color: "#417DBD", textColor: "#FFFFFF"),
             CombinedDeparture(line: "300", destination: "Aliados", source: .scheduled, etaMinutes: 44, time: "16:58", status: nil, delayMinutes: nil, color: "#417DBD", textColor: "#FFFFFF"),
         ])
+}
+
+extension Line {
+    // Real GTFS route colours, confirmed against the live feed: city lines
+    // share #187EC2, the M-family is black, 701 is red.
+    static let previews = [
+        Line(line: "201", description: "Viso - Trindade", routeId: "201_0", color: "#187EC2", textColor: "#FFFFFF"),
+        Line(line: "300", description: "Circular Aliados - H.S.João", routeId: "300_0", color: "#187EC2", textColor: "#FFFFFF"),
+        Line(line: "305", description: "Cordoaria - Matosinhos", routeId: "305_0", color: "#187EC2", textColor: "#FFFFFF"),
+        Line(line: "701", description: "Bolhão - Codiceira", routeId: "701_0", color: "#FF0000", textColor: "#FFFFFF"),
+        Line(line: "1M", description: "Circular Foz", routeId: "1M_0", color: "#000000", textColor: "#FFFFFF"),
+    ]
+}
+
+extension RouteDirectionStops {
+    static let preview = RouteDirectionStops(
+        routeId: "305", directionId: 0,
+        stops: [
+            DirectionStop(stopId: "1", stopName: "CORDOARIA", stopCode: "COR", zoneId: nil, lat: nil, lon: nil, sequence: 0, description: nil),
+            DirectionStop(stopId: "2", stopName: "CARMO", stopCode: "CMO", zoneId: nil, lat: nil, lon: nil, sequence: 1, description: nil),
+            DirectionStop(stopId: "3", stopName: "TRINDADE", stopCode: "TRD6", zoneId: nil, lat: nil, lon: nil, sequence: 2, description: nil),
+        ],
+        timepointStopIds: ["1", "3"]
+    )
 }
 #endif

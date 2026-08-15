@@ -13,10 +13,27 @@ struct BoardRowDisplay: Identifiable, Hashable {
     let stopCode: String
     let stopName: String
     let walkText: String
-    let isRealtime: Bool
+    let tone: ArrivalTone
     let catchable: Bool
     let colorHex: String?
     let textColorHex: String?
+}
+
+/// Whether an arrival is running on time or late — trusts STCP's own
+/// classification (`status`) rather than re-deriving a threshold from raw
+/// delay minutes: STCP already absorbs sub-minute noise into "on time" (a
+/// 0.8-minute delay still reports `ON_TIME`), so inventing our own cutoff
+/// would risk disagreeing with what STCP's own app shows for the same bus.
+/// Colours the ETA itself (green/red) rather than a separate live/not-live
+/// indicator — whether a stop is tracked at all turned out to almost never
+/// vary in practice, so it carried little information; on-time-vs-delayed
+/// visibly does, row to row, in real data.
+enum ArrivalTone: Hashable {
+    case onTime
+    case delayed
+    /// No live status to go on — rare in observed data, but the honest
+    /// fallback rather than guessing.
+    case unknown
 }
 
 /// Inputs the Board needs from settings, snapshotted per load so a change in
@@ -61,7 +78,7 @@ final class BoardViewModel {
                 stopCode: row.stopCode,
                 stopName: row.stopName,
                 walkText: "\(row.walkMinutes) min walk",
-                isRealtime: row.realtime,
+                tone: Self.arrivalTone(forStatus: row.status),
                 catchable: row.catchable,
                 colorHex: row.color,
                 textColorHex: row.textColor
@@ -126,5 +143,16 @@ final class BoardViewModel {
         let rounded = Int(minutes.rounded())
         if rounded <= 0 { return "Arriving" }
         return "\(rounded) min"
+    }
+
+    /// STCP's raw `status` string -> the coarse tone that colours an ETA.
+    /// Shared by Board and the Lines-flow stop screen, both of which show
+    /// per-arrival live status.
+    static func arrivalTone(forStatus status: String?) -> ArrivalTone {
+        switch status {
+        case "DELAYED": return .delayed
+        case "ON_TIME", "ARRIVING": return .onTime
+        default: return .unknown
+        }
     }
 }

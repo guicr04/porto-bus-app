@@ -29,13 +29,18 @@ public struct Line: Codable, Sendable, Hashable, Identifiable {
     public let description: String
     /// internal GTFS route id
     public let routeId: String
+    /// official GTFS route_color, e.g. "#187EC2"; most city lines share one family colour
+    public let color: String?
+    public let textColor: String?
 
     public var id: String { line }
 
-    public init(line: String, description: String, routeId: String) {
+    public init(line: String, description: String, routeId: String, color: String?, textColor: String?) {
         self.line = line
         self.description = description
         self.routeId = routeId
+        self.color = color
+        self.textColor = textColor
     }
 }
 

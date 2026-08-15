@@ -11,6 +11,7 @@ import PortoBusKit
 final class AppServices {
     let settings: AppSettings
     let location: LocationProvider
+    let favorites: FavoritesStore
 
     /// When set, `makeClient()` returns this instead of a live client. Used by
     /// SwiftUI previews and tests to run screens against canned data with no
@@ -20,10 +21,12 @@ final class AppServices {
     init(
         settings: AppSettings = AppSettings(),
         location: LocationProvider = LocationProvider(),
+        favorites: FavoritesStore = FavoritesStore(),
         clientOverride: PortoBusClient? = nil
     ) {
         self.settings = settings
         self.location = location
+        self.favorites = favorites
         self.clientOverride = clientOverride
     }
 
