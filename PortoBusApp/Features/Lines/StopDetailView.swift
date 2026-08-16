@@ -1,11 +1,12 @@
 import SwiftUI
 import PortoBusKit
 
-/// A stop's live arrivals, across every line serving it — informational rows,
-/// not links: this board already covers what's coming for the next ~hour per
-/// line, so there's nothing further to drill into. The toolbar heart favorites
-/// the whole station, not one line at it, since a favorite is a place you
-/// check, not a single route through it.
+/// A stop's live arrivals, one row per line and direction. Each row follows
+/// that bus: where it goes after here, and when (DESIGN.md §11.1). The toolbar
+/// heart favorites the whole station, not one line at it, since a favorite is a
+/// place you check, not a single route through it.
+///
+/// The rows themselves live in `StopBoardList`, shared with the Map's sheet.
 struct StopDetailView: View {
     let stop: Stop
     @Environment(AppServices.self) private var services
@@ -52,23 +53,10 @@ struct StopDetailView: View {
     private func content(_ model: StopDetailViewModel) -> some View {
         LoadStateView(state: model.state, retry: { Task { await model.load() } }) { _ in
             if model.isEmpty {
-                ContentUnavailableView("No arrivals", systemImage: "clock.badge.xmark",
-                                       description: Text("Nothing is currently tracked at this stop."))
+                StopBoardEmptyView()
             } else {
-                List(model.arrivals) { arrival in
-                    HStack(spacing: 12) {
-                        LineBadge(line: arrival.line, color: arrival.colorHex, textColor: arrival.textColorHex)
-                        Text(arrival.destination).font(.headline).lineLimit(1)
-                        Spacer(minLength: 8)
-                        Text(arrival.etaText)
-                            .font(.title3.weight(.semibold))
-                            .monospacedDigit()
-                            .foregroundStyle(Color(tone: arrival.tone))
-                    }
-                    .padding(.vertical, 4)
-                }
-                .listStyle(.plain)
-                .floatingBarInset()
+                StopBoardList(stop: model.stop, groups: model.lineGroups)
+                    .floatingBarInset()
             }
         }
         .refreshable { await model.load() }

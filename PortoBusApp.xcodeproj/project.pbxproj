@@ -14,10 +14,17 @@
 		176B9959902F532AC1BE4138 /* LineStopsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B4440F67BBAE02FA0ABABF /* LineStopsView.swift */; };
 		1F765E8A0E19E736E264B503 /* MockPortoBusClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CCCDC7D79D73643940913E /* MockPortoBusClient.swift */; };
 		1F8BA41B6B8FDB513EB04CEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08AEC56630A13011B374AF0 /* Assets.xcassets */; };
+		216A46C7FD18EAC040FBDEEB /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435046CC11DB068C5432C55E /* MapScreen.swift */; };
+		23A338575630567B183791A1 /* LineDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B934064B73C21B1F958F23E /* LineDetailViewModel.swift */; };
+		30D28EB8380175024D064068 /* MapStopSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F478FD0E396FFD3B733B36F /* MapStopSheet.swift */; };
+		34358A7AEEBAA37028987490 /* StopBoardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6F7C0598D4994FCD59D8BA /* StopBoardList.swift */; };
+		418EBFF22417E5EF79923EBC /* PortoBusMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947DE651C0A39264387C8885 /* PortoBusMark.swift */; };
 		4B00ABEF375AEA15A50EB542 /* FloatingTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11058E6E980A7EAB61C1876 /* FloatingTabBar.swift */; };
 		4E2717197913D3DABCA545EA /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAD3C828E5FD94D3108DFEF /* AppTab.swift */; };
+		4F7A4AC3FEDB3D50F27E0C3E /* LineDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2882F542D00BD92826659A70 /* LineDetailView.swift */; };
 		531F4B40EE1213FE849300F4 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA288A57C0A640BBD95F5CD /* Route.swift */; };
 		6530F52F860729571229559D /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B120710D54E1050187514DB /* InfoView.swift */; };
+		6D4CB5AC4F499BDC062A7157 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9296A475AB7ECE4281CBC7 /* MapViewModel.swift */; };
 		71EA7455FB494BFDB4B027C8 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39506C670959CEF8CD1570DA /* FavoritesView.swift */; };
 		73DAA27E1EB939EE59083B70 /* StopDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5CB17420142AF7065A782 /* StopDetailViewModel.swift */; };
 		76A5FA0F89A7BC2A9627CA27 /* LineBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3746526D2379F7814B237A2 /* LineBadge.swift */; };
@@ -26,9 +33,11 @@
 		8C0188041E1037232ACE4224 /* LineStopsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D734350A7B1DD242BC623829 /* LineStopsViewModel.swift */; };
 		93B3435D2E271279C5E2DB0E /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A1C1338D56CD6F02EB8A2D /* AppServices.swift */; };
 		9B07FB7FD3F97D0D4EB48ABC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0781AC344D14538AF1EDACA /* SettingsView.swift */; };
+		A0CF489201994A272B59FA17 /* StopAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AED42C77D0FA95B54A3234 /* StopAnnotationView.swift */; };
 		AABF3544F198CB64910FDD65 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30047CE6E2F79466DA7E2A04 /* FavoritesViewModel.swift */; };
 		B74A46605E2D43AE9C656A39 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B25A5CEA7258CEE7BB0EF2 /* Color+Hex.swift */; };
 		B926BA1FDC3758256E9748B9 /* PortoBusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA79CED0ED8C46D8EAF1189 /* PortoBusApp.swift */; };
+		CE6D4392D77F25DBCBA2BB9F /* MapDetailLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791F697C8EAF2F3F9308F7DE /* MapDetailLevel.swift */; };
 		E0773DCDBFFA0C09FB360B55 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3513E9F779BB6A8DE772063B /* RootView.swift */; };
 		EC66166977365990D6DF9113 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741C10C98D7CF7489F3C4BE6 /* AppSettings.swift */; };
 		EDB3C2F626B5F7CC3F860E17 /* LinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F5069FF62391AECB09BB197 /* LinesView.swift */; };
@@ -36,16 +45,21 @@
 		F3116B6C7F67B837347C645D /* LoadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470DDECAEB96D84895641D48 /* LoadState.swift */; };
 		F658CAE5D72B15EEF067C56E /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21B140C797F034EF1432D64 /* LocationProvider.swift */; };
 		F81D6A246F4A27DB75815CD8 /* FavoritesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE423264EE85FD443159CF9F /* FavoritesStore.swift */; };
+		FBED64CE4F4D0CAA3A86023E /* RouteOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5E55F4A2558113366BA724 /* RouteOverlay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		08AED42C77D0FA95B54A3234 /* StopAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopAnnotationView.swift; sourceTree = "<group>"; };
 		08B4440F67BBAE02FA0ABABF /* LineStopsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineStopsView.swift; sourceTree = "<group>"; };
 		0CA5CB17420142AF7065A782 /* StopDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopDetailViewModel.swift; sourceTree = "<group>"; };
+		0F478FD0E396FFD3B733B36F /* MapStopSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapStopSheet.swift; sourceTree = "<group>"; };
 		0F5069FF62391AECB09BB197 /* LinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesView.swift; sourceTree = "<group>"; };
 		0FD664525E32944C0BAFAC9E /* LinesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesViewModel.swift; sourceTree = "<group>"; };
 		112A2C991B0454E32A80966C /* PortoBusApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PortoBusApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		115B6E7BCE6BC24375769F9D /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		1706F67F59A68FBA57ADDD9F /* StopDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopDetailView.swift; sourceTree = "<group>"; };
+		1B934064B73C21B1F958F23E /* LineDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineDetailViewModel.swift; sourceTree = "<group>"; };
+		2882F542D00BD92826659A70 /* LineDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineDetailView.swift; sourceTree = "<group>"; };
 		288B61284AD784DD0BABC7AF /* PortoBusKit */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PortoBusKit; sourceTree = SOURCE_ROOT; };
 		28CCCDC7D79D73643940913E /* MockPortoBusClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPortoBusClient.swift; sourceTree = "<group>"; };
 		2EAD3C828E5FD94D3108DFEF /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTab.swift; sourceTree = "<group>"; };
@@ -53,15 +67,21 @@
 		3513E9F779BB6A8DE772063B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		39506C670959CEF8CD1570DA /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		3E70D18BA1221C6CA3868481 /* LoadStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadStateView.swift; sourceTree = "<group>"; };
+		435046CC11DB068C5432C55E /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
 		464E533FD43601F39820C906 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
 		470DDECAEB96D84895641D48 /* LoadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadState.swift; sourceTree = "<group>"; };
 		4B120710D54E1050187514DB /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		54A1C1338D56CD6F02EB8A2D /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
 		741C10C98D7CF7489F3C4BE6 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		7845C8D2FEB2DC190C43BA6B /* FavoriteSwipeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSwipeButton.swift; sourceTree = "<group>"; };
+		791F697C8EAF2F3F9308F7DE /* MapDetailLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailLevel.swift; sourceTree = "<group>"; };
 		84FB6E69068E65DBBF653DC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		947DE651C0A39264387C8885 /* PortoBusMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortoBusMark.swift; sourceTree = "<group>"; };
 		ADA288A57C0A640BBD95F5CD /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		BC9296A475AB7ECE4281CBC7 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		BD5E55F4A2558113366BA724 /* RouteOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteOverlay.swift; sourceTree = "<group>"; };
 		C08AEC56630A13011B374AF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CB6F7C0598D4994FCD59D8BA /* StopBoardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopBoardList.swift; sourceTree = "<group>"; };
 		CE423264EE85FD443159CF9F /* FavoritesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStore.swift; sourceTree = "<group>"; };
 		D21B140C797F034EF1432D64 /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
 		D734350A7B1DD242BC623829 /* LineStopsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineStopsViewModel.swift; sourceTree = "<group>"; };
@@ -132,6 +152,19 @@
 			path = Location;
 			sourceTree = "<group>";
 		};
+		4A80DD851689EBF7819D3C0A /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				791F697C8EAF2F3F9308F7DE /* MapDetailLevel.swift */,
+				435046CC11DB068C5432C55E /* MapScreen.swift */,
+				0F478FD0E396FFD3B733B36F /* MapStopSheet.swift */,
+				BC9296A475AB7ECE4281CBC7 /* MapViewModel.swift */,
+				BD5E55F4A2558113366BA724 /* RouteOverlay.swift */,
+				08AED42C77D0FA95B54A3234 /* StopAnnotationView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		5A1B634F3F6D283FB3D79053 /* Info */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,10 +176,13 @@
 		7789AF0ADD03325EF53A0C92 /* Lines */ = {
 			isa = PBXGroup;
 			children = (
+				2882F542D00BD92826659A70 /* LineDetailView.swift */,
+				1B934064B73C21B1F958F23E /* LineDetailViewModel.swift */,
 				08B4440F67BBAE02FA0ABABF /* LineStopsView.swift */,
 				D734350A7B1DD242BC623829 /* LineStopsViewModel.swift */,
 				0F5069FF62391AECB09BB197 /* LinesView.swift */,
 				0FD664525E32944C0BAFAC9E /* LinesViewModel.swift */,
+				CB6F7C0598D4994FCD59D8BA /* StopBoardList.swift */,
 				1706F67F59A68FBA57ADDD9F /* StopDetailView.swift */,
 				0CA5CB17420142AF7065A782 /* StopDetailViewModel.swift */,
 			);
@@ -184,6 +220,7 @@
 				7845C8D2FEB2DC190C43BA6B /* FavoriteSwipeButton.swift */,
 				F3746526D2379F7814B237A2 /* LineBadge.swift */,
 				3E70D18BA1221C6CA3868481 /* LoadStateView.swift */,
+				947DE651C0A39264387C8885 /* PortoBusMark.swift */,
 			);
 			path = Design;
 			sourceTree = "<group>";
@@ -203,6 +240,7 @@
 				1C2E7611391B9EA7CB7F6D2D /* Favorites */,
 				5A1B634F3F6D283FB3D79053 /* Info */,
 				7789AF0ADD03325EF53A0C92 /* Lines */,
+				4A80DD851689EBF7819D3C0A /* Map */,
 				1DD5294F87FB65E9105B7CDC /* Settings */,
 			);
 			path = Features;
@@ -313,6 +351,8 @@
 				4B00ABEF375AEA15A50EB542 /* FloatingTabBar.swift in Sources */,
 				6530F52F860729571229559D /* InfoView.swift in Sources */,
 				76A5FA0F89A7BC2A9627CA27 /* LineBadge.swift in Sources */,
+				4F7A4AC3FEDB3D50F27E0C3E /* LineDetailView.swift in Sources */,
+				23A338575630567B183791A1 /* LineDetailViewModel.swift in Sources */,
 				176B9959902F532AC1BE4138 /* LineStopsView.swift in Sources */,
 				8C0188041E1037232ACE4224 /* LineStopsViewModel.swift in Sources */,
 				EDB3C2F626B5F7CC3F860E17 /* LinesView.swift in Sources */,
@@ -320,11 +360,19 @@
 				F3116B6C7F67B837347C645D /* LoadState.swift in Sources */,
 				12CA737B48B860DB4D6CCA77 /* LoadStateView.swift in Sources */,
 				F658CAE5D72B15EEF067C56E /* LocationProvider.swift in Sources */,
+				CE6D4392D77F25DBCBA2BB9F /* MapDetailLevel.swift in Sources */,
+				216A46C7FD18EAC040FBDEEB /* MapScreen.swift in Sources */,
+				30D28EB8380175024D064068 /* MapStopSheet.swift in Sources */,
+				6D4CB5AC4F499BDC062A7157 /* MapViewModel.swift in Sources */,
 				1F765E8A0E19E736E264B503 /* MockPortoBusClient.swift in Sources */,
 				B926BA1FDC3758256E9748B9 /* PortoBusApp.swift in Sources */,
+				418EBFF22417E5EF79923EBC /* PortoBusMark.swift in Sources */,
 				E0773DCDBFFA0C09FB360B55 /* RootView.swift in Sources */,
 				531F4B40EE1213FE849300F4 /* Route.swift in Sources */,
+				FBED64CE4F4D0CAA3A86023E /* RouteOverlay.swift in Sources */,
 				9B07FB7FD3F97D0D4EB48ABC /* SettingsView.swift in Sources */,
+				A0CF489201994A272B59FA17 /* StopAnnotationView.swift in Sources */,
+				34358A7AEEBAA37028987490 /* StopBoardList.swift in Sources */,
 				78DBD18CA20B13FF648D7BFB /* StopDetailView.swift in Sources */,
 				73DAA27E1EB939EE59083B70 /* StopDetailViewModel.swift in Sources */,
 			);
@@ -340,8 +388,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 6K8KYNW8Z8;
 				INFOPLIST_FILE = PortoBusApp/Info.plist;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Porto Bus connects to the Porto Bus API running on your local network.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Porto Bus uses your location to show which buses you can catch on foot from where you are.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -488,8 +534,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 6K8KYNW8Z8;
 				INFOPLIST_FILE = PortoBusApp/Info.plist;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Porto Bus connects to the Porto Bus API running on your local network.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Porto Bus uses your location to show which buses you can catch on foot from where you are.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

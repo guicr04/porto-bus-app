@@ -31,7 +31,7 @@ struct RootView: View {
         case .lines:
             NavigationStack { LinesScreen() }
         case .map:
-            NavigationStack { ComingSoonView(tab: .map, note: "Live route map with vehicle positions — needs an API endpoint that infers positions from trip_id (DESIGN.md §10.2).") }
+            NavigationStack { MapScreen() }
         case .favorites:
             NavigationStack { FavoritesScreen() }
         case .info:
@@ -51,19 +51,44 @@ extension View {
     }
 }
 
-/// Placeholder for the tabs that ship after v1. Honest about what's coming
-/// rather than an empty screen that reads as broken.
-struct ComingSoonView: View {
-    let tab: AppTab
-    let note: String
+private struct FloatingBarVisibleKey: EnvironmentKey {
+    static let defaultValue = true
+}
 
-    var body: some View {
-        ContentUnavailableView {
-            Label("\(tab.title) — coming soon", systemImage: tab.systemImage)
-        } description: {
-            Text(note)
-        }
-        .navigationTitle(tab.title)
+private struct HostDrawsRouteKey: EnvironmentKey {
+    static let defaultValue = false
+}
+
+extension EnvironmentValues {
+    /// Whether the floating tab bar is overlapping this view's bottom edge.
+    ///
+    /// True everywhere inside a tab; false inside a sheet, which is drawn over
+    /// the bar. A screen reachable from both — the line detail is, via the Map's
+    /// stop sheet and via the Lines tab — cannot otherwise know whether to
+    /// reserve room, and gets either clipped rows or 60pt of dead space.
+    var floatingBarVisible: Bool {
+        get { self[FloatingBarVisibleKey.self] }
+        set { self[FloatingBarVisibleKey.self] = newValue }
+    }
+
+    /// Whether there is already a map behind this view that will draw a
+    /// published route (`AppServices.route`).
+    ///
+    /// True inside the Map tab's stop sheet, false everywhere else. A screen
+    /// that shows a route and can be reached from both — the line detail is,
+    /// via the Map's sheet and via the Lines tab — would otherwise either stack
+    /// a second little map on top of the real one, or show no route at all.
+    var hostDrawsRoute: Bool {
+        get { self[HostDrawsRouteKey.self] }
+        set { self[HostDrawsRouteKey.self] = newValue }
+    }
+}
+
+extension View {
+    /// Reserve room for the floating bar, but only where it actually is.
+    @ViewBuilder
+    func floatingBarInsetIfVisible(_ visible: Bool) -> some View {
+        if visible { floatingBarInset() } else { self }
     }
 }
 

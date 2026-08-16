@@ -10,6 +10,8 @@ public protocol PortoBusClient: Sendable {
 
     // stops
     func stops(query: String?, limit: Int?) async throws -> [Stop]
+    func stops(bbox: BoundingBox) async throws -> [Stop]
+    func stopLines(bbox: BoundingBox) async throws -> [StopLines]
     func stop(code: String) async throws -> Stop
     func realtime(stop code: String) async throws -> RealtimeStop
     func stopRoutes(stop code: String) async throws -> StopRoutes
@@ -23,6 +25,9 @@ public protocol PortoBusClient: Sendable {
     func lineShape(line: String, directionId: Int) async throws -> RouteShape
     func lineServices(line: String, date: String?) async throws -> RouteServices
     func lineSchedule(line: String, serviceId: String, directionId: Int) async throws -> RouteSchedule
+
+    // trips
+    func tripStops(tripId: String?, line: String?, headsign: String?, stop: String?, etaMinutes: Int?) async throws -> ResolvedTrip
 }
 
 // Convenience overloads so callers can omit the optional-heavy tail.
@@ -37,6 +42,32 @@ extension PortoBusClient {
 
     public func departures(stop code: String, line: String) async throws -> StopLineDepartures {
         try await departures(stop: code, line: line, serviceId: nil, directionId: nil, windowMinutes: nil, limit: nil)
+    }
+
+    /// Resolve the bus behind one live arrival. Every hint the API's fallback
+    /// can use is already on the `Arrival` and the stop it came from, so the
+    /// call site never has to assemble them by hand — or forget to.
+    public func tripStops(for arrival: Arrival, at stopCode: String) async throws -> ResolvedTrip {
+        try await tripStops(
+            tripId: arrival.tripId,
+            line: arrival.line,
+            headsign: arrival.destination,
+            stop: stopCode,
+            etaMinutes: arrival.arrivalMinutes.map { Int($0.rounded()) }
+        )
+    }
+
+    /// The same, for a row on the combined departures list. A scheduled row has
+    /// no trip id and resolves by pattern instead — which is why this doesn't
+    /// refuse the way it used to when the id was missing.
+    public func tripStops(for departure: CombinedDeparture, at stopCode: String) async throws -> ResolvedTrip {
+        try await tripStops(
+            tripId: departure.tripId,
+            line: departure.line,
+            headsign: departure.destination,
+            stop: stopCode,
+            etaMinutes: departure.etaMinutes.map { Int($0.rounded()) }
+        )
     }
 }
 
@@ -97,6 +128,14 @@ public struct LivePortoBusClient: PortoBusClient {
         try await get(API.board(lat: lat, lon: lon, walkMinutes: walkMinutes, sort: sort, includeUnreachable: includeUnreachable))
     }
 
+    public func stops(bbox: BoundingBox) async throws -> [Stop] {
+        try await get(API.stops(bbox: bbox))
+    }
+
+    public func stopLines(bbox: BoundingBox) async throws -> [StopLines] {
+        try await get(API.stopLines(bbox: bbox))
+    }
+
     public func stops(query: String?, limit: Int?) async throws -> [Stop] {
         try await get(API.stops(query: query, limit: limit))
     }
@@ -143,5 +182,9 @@ public struct LivePortoBusClient: PortoBusClient {
 
     public func lineSchedule(line: String, serviceId: String, directionId: Int) async throws -> RouteSchedule {
         try await get(API.lineSchedule(line: line, serviceId: serviceId, directionId: directionId))
+    }
+
+    public func tripStops(tripId: String?, line: String?, headsign: String?, stop: String?, etaMinutes: Int?) async throws -> ResolvedTrip {
+        try await get(API.tripStops(tripId: tripId, line: line, headsign: headsign, stop: stop, etaMinutes: etaMinutes))
     }
 }

@@ -78,6 +78,26 @@ public enum API {
         ])
     }
 
+    /// Stops inside a map region.
+    ///
+    /// The API takes `bbox` in GeoJSON order — `minLon,minLat,maxLon,maxLat` —
+    /// which is the opposite of how MapKit talks about regions, so the swap
+    /// happens here once rather than at every call site. A bbox request has no
+    /// `limit`: the box is already the bound, and a partially-drawn map is a
+    /// bug the client cannot detect.
+    public static func stops(bbox: BoundingBox) -> Endpoint {
+        Endpoint(path: "stops", queryItems: [
+            "bbox": "\(bbox.minLon),\(bbox.minLat),\(bbox.maxLon),\(bbox.maxLat)",
+        ])
+    }
+
+    /// Lines serving each stop in a region, in one request.
+    public static func stopLines(bbox: BoundingBox) -> Endpoint {
+        Endpoint(path: "stops/lines", queryItems: [
+            "bbox": "\(bbox.minLon),\(bbox.minLat),\(bbox.maxLon),\(bbox.maxLat)",
+        ])
+    }
+
     public static func stop(code: String) -> Endpoint {
         Endpoint(path: "stops/\(pathSafe(code))")
     }
@@ -142,6 +162,36 @@ public enum API {
         Endpoint(path: "lines/\(pathSafe(line))/schedule", queryItems: [
             "service_id": serviceId,
             "direction_id": String(directionId),
+        ])
+    }
+
+    // --- trips ---
+
+    /// One live bus's whole journey: the resolved trip's ordered stops and
+    /// scheduled times.
+    ///
+    /// The hints are not filters. They are the fallback identity the API uses
+    /// when the live `trip_id` does not join to the static feed — line +
+    /// headsign + nearest scheduled departure — and they come straight off the
+    /// board row that was tapped, so passing them is free and is the difference
+    /// between a degraded screen and an empty one (API README §4c).
+    ///
+    /// A nil `tripId` is not a missing argument — it is a departure that never
+    /// had an id (the scheduled half of `/departures` carries times and
+    /// headsigns only), and the API has a separate path for exactly that.
+    public static func tripStops(
+        tripId: String?,
+        line: String? = nil,
+        headsign: String? = nil,
+        stop: String? = nil,
+        etaMinutes: Int? = nil
+    ) -> Endpoint {
+        let path = tripId.map { "trips/\(pathSafe($0))/stops" } ?? "trips/stops"
+        return Endpoint(path: path, queryItems: [
+            "line": line,
+            "headsign": headsign,
+            "stop": stop,
+            "eta_minutes": etaMinutes.map(String.init),
         ])
     }
 

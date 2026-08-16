@@ -22,6 +22,39 @@ public struct Stop: Codable, Sendable, Hashable, Identifiable {
     }
 }
 
+/// One line serving a stop, reduced to what a map label needs: the number and
+/// its colours. Deliberately not `Line` — there is no description or route_id
+/// here, because the map draws a badge, not a list entry.
+public struct StopLine: Codable, Sendable, Hashable, Identifiable {
+    public let line: String
+    public let color: String?
+    public let textColor: String?
+
+    public var id: String { line }
+
+    public init(line: String, color: String?, textColor: String?) {
+        self.line = line
+        self.color = color
+        self.textColor = textColor
+    }
+}
+
+/// The lines serving one stop, as returned by `/stops/lines?bbox=`.
+///
+/// Fetched for a whole region in one request: labelling pins at close zoom
+/// would otherwise cost one round trip per stop.
+public struct StopLines: Codable, Sendable, Hashable, Identifiable {
+    public let stopCode: String
+    public let lines: [StopLine]
+
+    public var id: String { stopCode }
+
+    public init(stopCode: String, lines: [StopLine]) {
+        self.stopCode = stopCode
+        self.lines = lines
+    }
+}
+
 public struct Line: Codable, Sendable, Hashable, Identifiable {
     /// short name shown to riders, e.g. "500"
     public let line: String

@@ -13,6 +13,16 @@ final class AppServices {
     let location: LocationProvider
     let favorites: FavoritesStore
 
+    /// The route the Map tab should currently be drawing, if any.
+    ///
+    /// It lives here rather than in `MapScreen` for one reason: the screen that
+    /// *publishes* a route is inside a sheet, and a sheet is presented outside
+    /// the presenting view's hierarchy — an `.environment(object)` attached
+    /// halfway down the Map tab does not reliably reach it. `AppServices` is
+    /// injected once at the app root, above every presentation, so it does.
+    /// See `RouteOverlay` for what this is for.
+    let route = RouteOverlay()
+
     /// When set, `makeClient()` returns this instead of a live client. Used by
     /// SwiftUI previews and tests to run screens against canned data with no
     /// server. Never set in the production app.

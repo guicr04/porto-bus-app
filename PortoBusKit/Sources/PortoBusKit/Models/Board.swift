@@ -52,8 +52,13 @@ public struct CombinedDeparture: Codable, Sendable, Hashable {
     public let delayMinutes: Double?   // realtime only; fractional
     public let color: String?
     public let textColor: String?
+    /// The trip behind this departure, when it is known. Always set on live
+    /// rows; nil on scheduled ones unless they came from the store, because
+    /// upstream's timetable is times and headsigns only. A nil here is normal —
+    /// the journey for such a departure is asked for by pattern instead.
+    public let tripId: String?
 
-    public init(line: String, destination: String, source: DepartureSource, etaMinutes: Double?, time: String, status: String?, delayMinutes: Double?, color: String?, textColor: String?) {
+    public init(line: String, destination: String, source: DepartureSource, etaMinutes: Double?, time: String, status: String?, delayMinutes: Double?, color: String?, textColor: String?, tripId: String? = nil) {
         self.line = line
         self.destination = destination
         self.source = source
@@ -63,6 +68,7 @@ public struct CombinedDeparture: Codable, Sendable, Hashable {
         self.delayMinutes = delayMinutes
         self.color = color
         self.textColor = textColor
+        self.tripId = tripId
     }
 }
 

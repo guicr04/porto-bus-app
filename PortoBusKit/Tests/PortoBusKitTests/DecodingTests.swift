@@ -108,11 +108,110 @@ struct DecodingTests {
         #expect(shape.coordinates[2].sequence == 2)
     }
 
+    // MARK: - /trips/{trip_id}/stops
+
+    @Test func decodesAResolvedTrip() throws {
+        let trip = try Self.decode(ResolvedTrip.self, from: "trip-stops")
+
+        // The live id and the store's differ by exactly the feed-version field;
+        // both must survive the round trip, because the mismatch is the thing
+        // worth being able to see when this screen misbehaves.
+        #expect(trip.requestedTripId == "900_0_1|280|D3|T1|N5")
+        #expect(trip.tripId == "900_0_1|276|D3|T1|N5")
+        #expect(trip.match == .version)
+        #expect(trip.line == "900")
+        #expect(trip.headsign == "Francelos")
+        #expect(trip.directionId == 0)
+        #expect(trip.stops.count == 5)
+
+        // The feed this fixture came from was past its validity window. Not an
+        // error — but the app must be able to tell.
+        #expect(trip.feedExpired == true)
+
+        let carmo = try #require(trip.stops.first { $0.stopCode == "CMO" })
+        #expect(carmo.stopSequence == 2)
+        #expect(carmo.arrivalSeconds == 32775)
+        #expect(carmo.timepoint == false)
+        #expect(trip.stops[0].timepoint == true)
+    }
+
+    @Test func downstreamProjectsFromTheLiveETAOnly() throws {
+        let trip = try Self.decode(ResolvedTrip.self, from: "trip-stops")
+
+        // The bus is 6 minutes from CARMO. Everything after that is the live
+        // number plus a timetable gap — 32905 - 32775 = 130s to the next stop.
+        let after = trip.downstream(from: "CMO", liveEtaMinutes: 6)
+        #expect(after.map(\.stop.stopCode) == ["HSA1", "PAL6", "EQ4"])
+        #expect(abs(after[0].etaMinutes - (6 + 130.0 / 60)) < 1e-9)
+        #expect(abs(after[2].etaMinutes - (6 + 350.0 / 60)) < 1e-9)
+
+        // Nothing runs before the rider's own stop.
+        #expect(!after.contains { $0.stop.stopCode == "CORD5" })
+    }
+
+    @Test func downstreamIsEmptyOffTheEndsOfTheTrip() throws {
+        let trip = try Self.decode(ResolvedTrip.self, from: "trip-stops")
+        // A stop this bus does not call at, and its terminus: both mean "there
+        // is nothing after here", and neither may crash or invent a row.
+        #expect(trip.downstream(from: "NOPE", liveEtaMinutes: 6).isEmpty)
+        #expect(trip.downstream(from: "EQ4", liveEtaMinutes: 6).isEmpty)
+    }
+
+    @Test func anUnknownMatchDecodesRatherThanFailing() throws {
+        // A rung added server-side must not take the whole screen down.
+        let json = Data(#"""
+        {"trip_id":"T","requested_trip_id":"T","match":"telepathy","route_id":"R",
+         "line":"1","color":null,"text_color":null,"headsign":null,"direction_id":null,
+         "service_id":"S","shape_id":null,"feed_expired":false,"stops":[]}
+        """#.utf8)
+        let trip = try Self.decoder().decode(ResolvedTrip.self, from: json)
+        #expect(trip.match == .unknown("telepathy"))
+        #expect(trip.match.isCertain == false)
+    }
+
+    @Test func matchConfidenceSeparatesIdsFromGuesses() {
+        #expect(TripMatch.exact.isCertain)
+        #expect(TripMatch.version.isCertain)
+        // These two identified the bus by inference, not by its id.
+        #expect(!TripMatch.versionLatest.isCertain)
+        #expect(!TripMatch.pattern.isCertain)
+    }
+
     @Test func decodesStopsWithNullCoordinates() throws {
         let stops = try Self.decode([Stop].self, from: "stops")
         #expect(stops.count == 2)
         #expect(stops[0].stopCode == "CMO")
         #expect(stops[1].lat == nil)
         #expect(stops[1].lon == nil)
+    }
+}
+
+// MARK: - Bounding boxes
+
+@Suite struct BoundingBoxTests {
+    @Test func expandingGrowsEverySide() {
+        let box = BoundingBox(minLat: 0, minLon: 0, maxLat: 10, maxLon: 20)
+        let bigger = box.expanded(by: 0.1)
+        #expect(bigger.minLat == -1)
+        #expect(bigger.maxLat == 11)
+        #expect(bigger.minLon == -2)
+        #expect(bigger.maxLon == 22)
+    }
+
+    @Test func containsIsTrueOnlyWhenFullyEnclosed() {
+        let loaded = BoundingBox(minLat: 0, minLon: 0, maxLat: 10, maxLon: 10)
+        #expect(loaded.contains(BoundingBox(minLat: 1, minLon: 1, maxLat: 9, maxLon: 9)))
+        #expect(loaded.contains(loaded))
+        // Panned off the edge: must refetch, not reuse.
+        #expect(!loaded.contains(BoundingBox(minLat: 1, minLon: 1, maxLat: 9, maxLon: 11)))
+    }
+
+    @Test func centreAndSpanBuildsASymmetricBox() {
+        let box = BoundingBox(centerLat: 41.15, centerLon: -8.61, latDelta: 0.02, lonDelta: 0.04)
+        #expect(abs(box.minLat - 41.14) < 1e-9)
+        #expect(abs(box.maxLat - 41.16) < 1e-9)
+        #expect(abs(box.minLon - -8.63) < 1e-9)
+        #expect(abs(box.maxLon - -8.59) < 1e-9)
+        #expect(abs(box.latSpan - 0.02) < 1e-9)
     }
 }

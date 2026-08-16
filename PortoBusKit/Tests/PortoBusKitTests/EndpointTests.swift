@@ -35,6 +35,34 @@ struct EndpointTests {
         #expect(s.contains("service_id=DOM%7CFERIADO%3AFLUXO%203.1%2020260718"))
     }
 
+    @Test func tripStopsEncodesThePipesInTheTripId() throws {
+        // Live trip ids are pipe-delimited, and `|` is not legal raw in a path.
+        let url = try #require(
+            API.tripStops(tripId: "601_0_1|280|D3|T1|N6").url(relativeTo: base)
+        )
+        #expect(url.absoluteString == "http://192.168.1.20:8000/trips/601_0_1%7C280%7CD3%7CT1%7CN6/stops")
+    }
+
+    @Test func tripStopsCarriesTheFallbackHints() throws {
+        let url = try #require(
+            API.tripStops(tripId: "T1", line: "900", headsign: "Foz (Mercado)", stop: "CMO", etaMinutes: 6)
+                .url(relativeTo: base)
+        )
+        let s = url.absoluteString
+        #expect(s.hasPrefix("http://192.168.1.20:8000/trips/T1/stops?"))
+        #expect(s.contains("line=900"))
+        #expect(s.contains("stop=CMO"))
+        #expect(s.contains("eta_minutes=6"))
+        // Same encoding rule as service_id: spaces and brackets, never a `+`.
+        #expect(s.contains("headsign=Foz%20%28Mercado%29"))
+        #expect(!s.contains("+"))
+    }
+
+    @Test func tripStopsOmitsHintsThatWereNotGiven() throws {
+        let url = try #require(API.tripStops(tripId: "T1").url(relativeTo: base))
+        #expect(url.absoluteString == "http://192.168.1.20:8000/trips/T1/stops")
+    }
+
     @Test func departuresRequiresLineAndEncodesIt() throws {
         let url = try #require(API.departures(stop: "CMO", line: "1M").url(relativeTo: base))
         #expect(url.absoluteString.contains("/stops/CMO/departures?"))

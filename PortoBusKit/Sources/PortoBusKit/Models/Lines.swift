@@ -18,6 +18,12 @@ public struct ShapePoint: Codable, Sendable, Hashable {
         case lng
         case sequence
     }
+
+    public init(lat: Double, lng: Double, sequence: Int) {
+        self.lat = lat
+        self.lng = lng
+        self.sequence = sequence
+    }
 }
 
 public struct RouteShape: Codable, Sendable, Hashable {

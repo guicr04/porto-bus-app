@@ -1,0 +1,81 @@
+{
+  "trip_id": "900_0_1|276|D3|T1|N5",
+  "requested_trip_id": "900_0_1|280|D3|T1|N5",
+  "match": "version",
+  "route_id": "900",
+  "line": "900",
+  "color": "#FF7900",
+  "text_color": "#FFFFFF",
+  "headsign": "Francelos",
+  "direction_id": 0,
+  "service_id": "DOM|FERIADO:Fluxo 3 20260801",
+  "shape_id": "900_0|1",
+  "feed_expired": true,
+  "stops": [
+    {
+      "stop_sequence": 1,
+      "stop_id": "CORD5",
+      "stop_code": "CORD5",
+      "stop_name": "CORDOARIA",
+      "stop_lat": 41.146107,
+      "stop_lon": -8.615286,
+      "arrival_time": "09:05:00",
+      "departure_time": "09:05:00",
+      "arrival_seconds": 32700,
+      "departure_seconds": 32700,
+      "timepoint": true
+    },
+    {
+      "stop_sequence": 2,
+      "stop_id": "CMO",
+      "stop_code": "CMO",
+      "stop_name": "CARMO",
+      "stop_lat": 41.147223,
+      "stop_lon": -8.616926,
+      "arrival_time": "09:06:15",
+      "departure_time": "09:06:15",
+      "arrival_seconds": 32775,
+      "departure_seconds": 32775,
+      "timepoint": false
+    },
+    {
+      "stop_sequence": 3,
+      "stop_id": "HSA1",
+      "stop_code": "HSA1",
+      "stop_name": "HOSP. STO. ANTÓNIO",
+      "stop_lat": 41.146658,
+      "stop_lon": -8.620237,
+      "arrival_time": "09:08:25",
+      "departure_time": "09:08:25",
+      "arrival_seconds": 32905,
+      "departure_seconds": 32905,
+      "timepoint": false
+    },
+    {
+      "stop_sequence": 4,
+      "stop_id": "PAL6",
+      "stop_code": "PAL6",
+      "stop_name": "PALÁCIO",
+      "stop_lat": 41.145596,
+      "stop_lon": -8.624358,
+      "arrival_time": "09:10:21",
+      "departure_time": "09:10:21",
+      "arrival_seconds": 33021,
+      "departure_seconds": 33021,
+      "timepoint": false
+    },
+    {
+      "stop_sequence": 5,
+      "stop_id": "EQ4",
+      "stop_code": "EQ4",
+      "stop_name": "ENTRE QUINTAS",
+      "stop_lat": 41.145644,
+      "stop_lon": -8.628654,
+      "arrival_time": "09:12:05",
+      "departure_time": "09:12:05",
+      "arrival_seconds": 33125,
+      "departure_seconds": 33125,
+      "timepoint": false
+    }
+  ]
+}

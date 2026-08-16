@@ -12,6 +12,8 @@ struct MockPortoBusClient: PortoBusClient {
     var departuresResult: StopLineDepartures = .preview
     var linesResult: [Line] = Line.previews
     var lineStopsResult: RouteDirectionStops = .preview
+    var lineShapeResult: RouteShape = .preview
+    var tripStopsResult: ResolvedTrip = .preview
     /// When set, every call throws this instead of returning — for error-state previews.
     var error: APIError?
 
@@ -25,6 +27,24 @@ struct MockPortoBusClient: PortoBusClient {
     }
     func stops(query: String?, limit: Int?) async throws -> [Stop] {
         try result(query.map { q in stopsResult.filter { $0.name.localizedCaseInsensitiveContains(q) } } ?? stopsResult)
+    }
+    /// Filters the canned stops by the box, so a preview of the Map behaves like
+    /// the real thing — pan away from the sample stops and they disappear.
+    func stops(bbox: BoundingBox) async throws -> [Stop] {
+        try result(stopsResult.filter { stop in
+            guard let lat = stop.lat, let lon = stop.lon else { return false }
+            return lat >= bbox.minLat && lat <= bbox.maxLat && lon >= bbox.minLon && lon <= bbox.maxLon
+        })
+    }
+    /// Every canned stop gets the same two lines — enough for a preview of the
+    /// street-zoom labels without inventing a fake network.
+    func stopLines(bbox: BoundingBox) async throws -> [StopLines] {
+        try result(stopsResult.map {
+            StopLines(stopCode: $0.stopCode, lines: [
+                StopLine(line: "500", color: "#187EC2", textColor: "#FFFFFF"),
+                StopLine(line: "203", color: "#C2185B", textColor: "#FFFFFF"),
+            ])
+        })
     }
     func stop(code: String) async throws -> Stop { try result(stopsResult.first { $0.stopCode == code } ?? stopsResult[0]) }
     func realtime(stop code: String) async throws -> RealtimeStop { try result(realtimeResult) }
@@ -43,13 +63,16 @@ struct MockPortoBusClient: PortoBusClient {
         try result(lineStopsResult)
     }
     func lineShape(line: String, directionId: Int) async throws -> RouteShape {
-        try result(RouteShape(routeId: line, directionId: directionId, coordinates: []))
+        try result(lineShapeResult)
     }
     func lineServices(line: String, date: String?) async throws -> RouteServices {
         try result(RouteServices(routeId: line, services: [], activeServiceId: nil, selectedDate: nil, today: nil))
     }
     func lineSchedule(line: String, serviceId: String, directionId: Int) async throws -> RouteSchedule {
         try result(RouteSchedule(routeId: line, serviceId: serviceId, directionId: directionId, timepointStops: [], trips: []))
+    }
+    func tripStops(tripId: String?, line: String?, headsign: String?, stop: String?, etaMinutes: Int?) async throws -> ResolvedTrip {
+        try result(tripStopsResult)
     }
 }
 
@@ -89,11 +112,54 @@ extension Stop {
 }
 
 extension RealtimeStop {
+    // Several buses per line, and one line with no live tracking at all — the
+    // grouped stop sheet (DESIGN.md §11.1) has three distinct cases to render
+    // and a flat two-row board would exercise none of them.
     static let preview = RealtimeStop(
         stopCode: "CMO", stopName: "CARMO", arrivals: [
-            Arrival(line: "305", destination: "Cordoaria", arrivalMinutes: 6, estimatedArrivalTime: nil, scheduledArrivalTime: nil, status: "ON_TIME", delayMinutes: 0, color: "#417DBD", textColor: "#FFFFFF", tripId: "T1"),
-            Arrival(line: "300", destination: "Aliados", arrivalMinutes: 12, estimatedArrivalTime: nil, scheduledArrivalTime: nil, status: "DELAYED", delayMinutes: 5, color: "#417DBD", textColor: "#FFFFFF", tripId: "T2"),
+            Arrival(line: "305", destination: "Cordoaria", arrivalMinutes: 6, estimatedArrivalTime: nil, scheduledArrivalTime: nil, status: "ON_TIME", delayMinutes: 0, color: "#417DBD", textColor: "#FFFFFF", tripId: "305_0_1|280|D3|T1|N6"),
+            Arrival(line: "300", destination: "Aliados", arrivalMinutes: 12, estimatedArrivalTime: nil, scheduledArrivalTime: nil, status: "DELAYED", delayMinutes: 5, color: "#417DBD", textColor: "#FFFFFF", tripId: "300_0_1|280|D3|T1|N2"),
+            Arrival(line: "305", destination: "Cordoaria", arrivalMinutes: 21, estimatedArrivalTime: nil, scheduledArrivalTime: nil, status: "ON_TIME", delayMinutes: 0, color: "#417DBD", textColor: "#FFFFFF", tripId: "305_0_1|280|D3|T1|N8"),
+            Arrival(line: "701", destination: "Codiceira", arrivalMinutes: 14, estimatedArrivalTime: nil, scheduledArrivalTime: "16:28", status: nil, delayMinutes: nil, color: "#FF0000", textColor: "#FFFFFF", tripId: nil),
+            Arrival(line: "300", destination: "Aliados", arrivalMinutes: 27, estimatedArrivalTime: nil, scheduledArrivalTime: nil, status: "ON_TIME", delayMinutes: 0, color: "#417DBD", textColor: "#FFFFFF", tripId: "300_0_1|280|D3|T1|N4"),
         ], lastUpdated: nil, dataSource: "realtime")
+}
+
+extension RouteShape {
+    // A few real points along Rua do Carmo / Cordoaria — enough for the line
+    // detail's polyline to be visibly a road rather than a straight hop.
+    static let preview = RouteShape(
+        routeId: "305", directionId: 0,
+        coordinates: [
+            ShapePoint(lat: 41.1496, lng: -8.6109, sequence: 1),
+            ShapePoint(lat: 41.1489, lng: -8.6131, sequence: 2),
+            ShapePoint(lat: 41.1471, lng: -8.6148, sequence: 3),
+            ShapePoint(lat: 41.1465, lng: -8.6155, sequence: 4),
+            ShapePoint(lat: 41.1502, lng: -8.6203, sequence: 5),
+        ])
+}
+
+extension ResolvedTrip {
+    static let preview = ResolvedTrip(
+        tripId: "305_0_1|276|D3|T1|N6",
+        requestedTripId: "305_0_1|280|D3|T1|N6",
+        match: .version,
+        routeId: "305",
+        line: "305",
+        color: "#417DBD",
+        textColor: "#FFFFFF",
+        headsign: "Cordoaria",
+        directionId: 0,
+        serviceId: "SABADO:Fluxo 3 20260801",
+        shapeId: "SH305",
+        feedExpired: false,
+        stops: [
+            ResolvedTripStop(stopSequence: 1, stopId: "BOLH", stopCode: "BOLH", stopName: "BOLHÃO", stopLat: 41.1503, stopLon: -8.6074, arrivalTime: "16:14:00", departureTime: "16:14:00", arrivalSeconds: 58440, departureSeconds: 58440, timepoint: true),
+            ResolvedTripStop(stopSequence: 2, stopId: "CMO", stopCode: "CMO", stopName: "CARMO", stopLat: 41.1496, stopLon: -8.6109, arrivalTime: "16:20:00", departureTime: "16:20:00", arrivalSeconds: 58800, departureSeconds: 58800, timepoint: false),
+            ResolvedTripStop(stopSequence: 3, stopId: "HSA5", stopCode: "HSA5", stopName: "HOSP. ST. ANTÓNIO", stopLat: 41.1489, stopLon: -8.6131, arrivalTime: "16:22:00", departureTime: "16:22:00", arrivalSeconds: 58920, departureSeconds: 58920, timepoint: false),
+            ResolvedTripStop(stopSequence: 4, stopId: "COR", stopCode: "COR", stopName: "CORDOARIA", stopLat: 41.1465, stopLon: -8.6155, arrivalTime: "16:25:00", departureTime: "16:25:00", arrivalSeconds: 59100, departureSeconds: 59100, timepoint: true),
+            ResolvedTripStop(stopSequence: 5, stopId: "PRG1", stopCode: "PRG1", stopName: "PR. DA GALIZA", stopLat: 41.1502, stopLon: -8.6203, arrivalTime: "16:31:00", departureTime: "16:31:00", arrivalSeconds: 59460, departureSeconds: 59460, timepoint: true),
+        ])
 }
 
 extension StopLineDepartures {

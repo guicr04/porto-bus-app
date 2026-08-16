@@ -24,6 +24,28 @@ final class LocationProvider: NSObject, CLLocationManagerDelegate {
         manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
     }
 
+    /// True when the rider has actively refused, or is barred by policy. The UI
+    /// needs to distinguish this from "not asked yet": the first is a dead end
+    /// only Settings can undo, the second is one prompt away.
+    var isDenied: Bool {
+        authorization == .denied || authorization == .restricted
+    }
+
+    /// Prompt for permission if we've never asked.
+    ///
+    /// Exists so a screen can ask *before* MapKit's own location manager tries
+    /// and fails — `UserAnnotation`/`MapUserLocationButton` don't request
+    /// authorization themselves, they just fail with `kCLErrorDenied` and log
+    /// it. Asking first turns that into a prompt the rider can answer.
+    func requestAuthorizationIfNeeded() async {
+        guard authorization == .notDetermined else { return }
+        await withCheckedContinuation { cont in
+            authWaiters.append(cont)
+            manager.requestWhenInUseAuthorization()
+            scheduleTimeout(seconds: 5) { [weak self] in self?.resumeAuthWaiters() }
+        }
+    }
+
     /// Current coordinate, prompting for permission the first time. Returns nil
     /// when permission is denied/restricted or the fix fails — never throws, so
     /// the Board can quietly fall back to home coordinates.
@@ -35,15 +57,9 @@ final class LocationProvider: NSObject, CLLocationManagerDelegate {
             return nil
         }
 
-        if authorization == .notDetermined {
-            await withCheckedContinuation { cont in
-                authWaiters.append(cont)
-                manager.requestWhenInUseAuthorization()
-                // Safety net: if the auth decision never calls back, unblock so
-                // the board can proceed with fallback coordinates.
-                scheduleTimeout(seconds: 5) { [weak self] in self?.resumeAuthWaiters() }
-            }
-        }
+        // Safety net inside: if the auth decision never calls back, we unblock
+        // so the board can proceed with fallback coordinates.
+        await requestAuthorizationIfNeeded()
 
         guard authorization == .authorizedWhenInUse || authorization == .authorizedAlways else {
             return nil

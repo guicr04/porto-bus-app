@@ -29,8 +29,6 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.portobus.app
         INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait"
-        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Porto Bus uses your location to show which buses you can catch on foot from where you are."
-        INFOPLIST_KEY_NSLocalNetworkUsageDescription: "Porto Bus connects to the Porto Bus API running on your local network."
         SWIFT_STRICT_CONCURRENCY: complete
     info:
       path: PortoBusApp/Info.plist
@@ -39,6 +37,24 @@ targets:
         # rendering. Without it iOS letterboxes the app onto a legacy canvas,
         # which broke the bottom-anchored layout.
         UILaunchScreen: {}
+        # Usage descriptions live HERE, not in INFOPLIST_KEY_* build settings.
+        #
+        # This target sets an explicit INFOPLIST_FILE, and Xcode only merges
+        # INFOPLIST_KEY_* settings into the plist when GENERATE_INFOPLIST_FILE
+        # is YES. With an explicit file they are silently dropped — no warning,
+        # no error, just an app whose Info.plist lacks the key.
+        #
+        # The failure that caused is worth remembering: without
+        # NSLocationWhenInUseUsageDescription, requestWhenInUseAuthorization()
+        # is a no-op. No permission alert ever appears, authorizationStatus
+        # stays .notDetermined forever, and MapKit's own location manager fails
+        # with kCLErrorDomain Code=1 — which reads exactly like the user denied
+        # access, when in fact they were never asked.
+        NSLocationWhenInUseUsageDescription:
+          Porto Bus uses your location to show which buses you can catch on
+          foot from where you are.
+        NSLocalNetworkUsageDescription:
+          Porto Bus connects to the Porto Bus API running on your local network.
         # LAN-only for now: allow cleartext HTTP to the dev API on the local
         # network. NSAllowsLocalNetworking permits http:// to .local / RFC-1918
         # hosts without pinning a specific IP, so changing the Mac's address in

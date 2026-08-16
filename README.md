@@ -73,10 +73,23 @@ hosted over HTTPS.
 
 ## Status
 
-**Board, Lines, and Favorites are built and running against the live API.**
-Map is a placeholder tab (DESIGN.md §11.1) — it's next, and needs a new
-endpoint in `porto-bus-api` before there's anything to render. The Home Screen
-widget hasn't been started.
+**Board, Lines, Map, and Favorites are built and running against the live API.**
+
+The Map ships Phases 1 and 2 (DESIGN.md §11.1):
+
+- **Phase 1** — stops on Apple's basemap from `/stops?bbox=`, with detail
+  arriving in stages as you zoom (dots -> the app mark -> the mark plus line
+  numbers), the way Apple Maps treats its own transit stops.
+- **Phase 2** — tap a stop for a card grouped by line (badge, destination, the
+  next two ETAs), then tap a line to follow *that specific bus*: the stops after
+  yours with the time it should reach each of them, and every departure of that
+  line as a row of bubbles you can tap to follow a different one. The route
+  draws on the map behind the card, not on a second map inside it. Projected
+  times are anchored on the one live ETA and rendered as the timetable estimates
+  they are — never green.
+
+Phase 3 (live vehicle positions) is next, and is the only part still needing new
+work in the API. The Home Screen widget hasn't been started.
 
 Two screens from the original plan were built and then removed once real usage
 showed they were redundant — a combined single-line Departures view, and a

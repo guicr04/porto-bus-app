@@ -23,6 +23,10 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Porto Bus connects to the Porto Bus API running on your local network.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Porto Bus uses your location to show which buses you can catch on foot from where you are.</string>
 	<key>UILaunchScreen</key>
 	<dict/>
 </dict>
