@@ -28,6 +28,10 @@ struct LineDetailView: View {
     @State private var model: LineDetailViewModel?
     @State private var camera: MapCameraPosition = .automatic
     @State private var framedRoute: String?
+    /// Whether the stops the bus has already called at are on screen. Off by
+    /// default: the rider's question is where this bus goes *next*.
+    @State private var showsPreviousStops = false
+    @State private var scrollAnchor: ScrollViewProxy?
 
     var body: some View {
         Group {
@@ -62,14 +66,17 @@ struct LineDetailView: View {
     @ViewBuilder
     private func content(_ model: LineDetailViewModel) -> some View {
         LoadStateView(state: model.state, retry: { Task { await model.load() } }) { _ in
-            ScrollView {
-                VStack(spacing: 0) {
-                    if !hostDrawsRoute { inlineMap(model) }
-                    header(model)
-                    if !model.chips.isEmpty { departures(model) }
-                    if let caveat = model.caveat { caveatNote(caveat) }
-                    journey(model)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 0) {
+                        if !hostDrawsRoute { inlineMap(model) }
+                        header(model)
+                        if !model.chips.isEmpty { departures(model) }
+                        if let caveat = model.caveat { caveatNote(caveat) }
+                        journey(model)
+                    }
                 }
+                .onAppear { scrollAnchor = proxy }
             }
             .floatingBarInsetIfVisible(floatingBarVisible)
         }
@@ -226,24 +233,117 @@ struct LineDetailView: View {
             )
             .padding(.top, 24)
         } else {
-            VStack(alignment: .leading, spacing: 0) {
-                Text("Stops ahead")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal)
-                    .padding(.bottom, 6)
+            let all = model.journey
+            let originIndex = all.firstIndex(where: \.isOrigin) ?? 0
+            let hidden = showsPreviousStops ? 0 : max(originIndex - 1, 0)
+            // Collapsed still shows the stop immediately before the rider's, the
+            // way Apple Maps does: the rail needs somewhere to come from, and a
+            // list that begins abruptly at your own stop reads as the start of
+            // the line rather than the middle of it.
+            let visible = Array(all.dropFirst(hidden))
 
-                ForEach(Array(model.journey.enumerated()), id: \.element.id) { index, item in
+            VStack(alignment: .leading, spacing: 0) {
+                stopsHeader(previousCount: originIndex)
+
+                if hidden > 0 {
+                    PreviousStopsRow(count: hidden, color: railColor(model, isPast: true)) {
+                        expandPreviousStops()
+                    }
+                }
+
+                ForEach(Array(visible.enumerated()), id: \.element.id) { index, item in
                     JourneyRow(
                         item: item,
                         color: routeColor(model),
-                        isFirst: index == 0,
-                        isLast: index == model.journey.count - 1
+                        // The bus is always behind the rider, so it lives in the
+                        // half this control reveals. Showing it while collapsed
+                        // would put a vehicle on a rail with no route above it.
+                        showsBus: showsPreviousStops && item.hasBus,
+                        isFirst: index == 0 && hidden == 0,
+                        isLast: index == visible.count - 1
                     )
+                    .id(item.id)
                 }
             }
             .padding(.bottom, 8)
         }
+    }
+
+    private func stopsHeader(previousCount: Int) -> some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text("Stops")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(.secondary)
+            Spacer()
+            if previousCount > 1 {
+                Button(showsPreviousStops ? "Less" : "More") {
+                    if showsPreviousStops {
+                        withAnimation(.easeInOut(duration: 0.2)) { showsPreviousStops = false }
+                    } else {
+                        expandPreviousStops()
+                    }
+                }
+                .font(.footnote.weight(.semibold))
+            }
+        }
+        .padding(.horizontal)
+        .padding(.bottom, 6)
+    }
+
+    /// Expand, then pull the rider's stop back under the thumb.
+    ///
+    /// Inserting a dozen rows *above* the scroll position shoves everything the
+    /// rider was looking at off the bottom of the screen. Scrolling back to
+    /// their own stop keeps the thing they came for where they left it, and the
+    /// newly revealed stops read as having appeared above rather than as the
+    /// page having jumped.
+    private func expandPreviousStops() {
+        withAnimation(.easeInOut(duration: 0.2)) { showsPreviousStops = true }
+        guard let originID = model?.journey.first(where: \.isOrigin)?.id else { return }
+        DispatchQueue.main.async {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                scrollAnchor?.scrollTo(originID, anchor: .center)
+            }
+        }
+    }
+
+    private func railColor(_ model: LineDetailViewModel, isPast: Bool) -> Color {
+        isPast ? Color(.tertiaryLabel) : routeColor(model)
+    }
+}
+
+/// The collapsed stand-in for the stops the bus has already called at.
+///
+/// A dotted rail rather than a solid one: the route genuinely continues through
+/// here, but these stops are not being drawn, and a solid line would claim
+/// otherwise.
+private struct PreviousStopsRow: View {
+    let count: Int
+    let color: Color
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 12) {
+                VStack(spacing: 4) {
+                    ForEach(0..<3, id: \.self) { _ in
+                        Circle().fill(color).frame(width: 3, height: 3)
+                    }
+                }
+                .frame(width: 15)
+                .frame(maxHeight: .infinity)
+
+                Text("^[\(count) previous stop](inflect: true)")
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                Spacer(minLength: 8)
+            }
+            .padding(.horizontal)
+            .frame(minHeight: 40)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Show \(count) previous stops")
     }
 }
 
@@ -313,14 +413,21 @@ struct RouteStopDot: View {
 private struct JourneyRow: View {
     let item: JourneyStopDisplay
     let color: Color
+    /// Draw the vehicle here instead of a stop dot.
+    var showsBus: Bool = false
     let isFirst: Bool
     let isLast: Bool
+
+    /// The stops behind the rider are context, not the answer — grey, so the
+    /// eye lands on the part of the route still to come.
+    private var pastColor: Color { Color(.tertiaryLabel) }
 
     var body: some View {
         HStack(spacing: 12) {
             rail
             Text(item.name)
                 .font(item.isOrigin ? .body.weight(.semibold) : .body)
+                .foregroundStyle(item.isPast ? .secondary : .primary)
                 .lineLimit(1)
             Spacer(minLength: 8)
             trailingTime
@@ -331,16 +438,28 @@ private struct JourneyRow: View {
         .accessibilityLabel(accessibilityText)
     }
 
+    /// The rail changes colour *at* the rider's stop rather than between rows:
+    /// grey coming into it, the line's colour leaving it. That single junction
+    /// is what says "you get on here".
     private var rail: some View {
         ZStack {
             VStack(spacing: 0) {
-                Rectangle().fill(isFirst ? Color.clear : color).frame(width: 3)
-                Rectangle().fill(isLast ? Color.clear : color).frame(width: 3)
+                Rectangle()
+                    .fill(isFirst ? Color.clear : (item.isPast || item.isOrigin ? pastColor : color))
+                    .frame(width: 3)
+                Rectangle()
+                    .fill(isLast ? Color.clear : (item.isPast ? pastColor : color))
+                    .frame(width: 3)
             }
-            Circle()
-                .fill(item.isOrigin ? color : Color(.systemBackground))
-                .stroke(color, lineWidth: 3)
-                .frame(width: item.isOrigin ? 15 : 11, height: item.isOrigin ? 15 : 11)
+            if showsBus {
+                BusGlyph(color: color)
+            } else {
+                let dotColor = item.isPast ? pastColor : color
+                Circle()
+                    .fill(item.isOrigin ? dotColor : Color(.systemBackground))
+                    .stroke(dotColor, lineWidth: 2)
+                    .frame(width: item.isOrigin ? 15 : 11, height: item.isOrigin ? 15 : 11)
+            }
         }
         .frame(width: 15)
         .frame(maxHeight: .infinity)
@@ -356,11 +475,12 @@ private struct JourneyRow: View {
                 .foregroundStyle(Color(tone: item.tone))
         } else if let clockText = item.clockText {
             // Projected. Secondary styling, never green — the gap it was built
-            // from is a timetable, not a measurement.
+            // from is a timetable, not a measurement. Fainter still behind the
+            // rider, where the time has already passed.
             Text(clockText)
                 .font(.body)
                 .monospacedDigit()
-                .foregroundStyle(.secondary)
+                .foregroundStyle(item.isPast ? .tertiary : .secondary)
         } else {
             Text("—")
                 .font(.body)
@@ -369,9 +489,32 @@ private struct JourneyRow: View {
     }
 
     private var accessibilityText: String {
-        if let etaText = item.etaText { return "\(item.name), arriving in \(etaText)" }
-        if let clockText = item.clockText { return "\(item.name), around \(clockText)" }
-        return "\(item.name), no time available"
+        let where_ = showsBus ? "\(item.name), the bus is heading here" : item.name
+        if let etaText = item.etaText { return "\(where_), arriving in \(etaText)" }
+        if let clockText = item.clockText {
+            return item.isPast ? "\(where_), called at \(clockText)" : "\(where_), around \(clockText)"
+        }
+        return "\(where_), no time available"
+    }
+}
+
+/// The bus itself, sitting on the rail at the stop it is heading for.
+///
+/// It replaces that stop's dot rather than floating between rows, because
+/// "heading for this stop" is exactly the precision the underlying data has:
+/// stops are about a minute apart and the input is a predicted arrival time.
+/// A vehicle drawn between two rows — or sliding along a road — would be
+/// claiming a position nobody measured (DESIGN.md §11.1, Phase 3a).
+private struct BusGlyph: View {
+    let color: Color
+
+    var body: some View {
+        Image(systemName: "bus.fill")
+            .font(.system(size: 11, weight: .bold))
+            .foregroundStyle(Color(.systemBackground))
+            .frame(width: 22, height: 22)
+            .background(color, in: Circle())
+            .overlay(Circle().stroke(Color(.systemBackground), lineWidth: 2.5))
     }
 }
 

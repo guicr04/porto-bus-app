@@ -16,9 +16,10 @@ a note on why they changed: the reasoning is often as useful as the outcome.
 **Shipped: Board, Lines, Map, Favorites, Info.** Every tab now lands on a real
 screen. The Map ships its first two phases — stops on Apple's basemap, tap one
 for a stop card grouped by line, tap a line to follow that specific bus: its
-route, the stops after yours, and when it reaches each of them (§11.1). Phase 3
-(live vehicle positions) is still ahead, and is the only part that needs work in
-`porto-bus-api` that hasn't been done.
+route, the stops after yours, when it reaches each of them, and — Phase 3a —
+where that bus is right now, shown on the stops list at the stop it is heading
+for (§11.1). What's left is Phase 3b, every bus on a line at once, the only part
+still needing work in `porto-bus-api`.
 
 Two screens from the original plan no longer exist, on purpose:
 
@@ -969,45 +970,96 @@ space, or two maps stacked on each other.
 *(The Lisbon Metro app's moving trains: buses drawn along the route, tap one
 for its details.)*
 
-**This is the part that genuinely needs new API work, and the blocker isn't the
-number of buses — it's that the API has no vehicle positions at all.** GTFS is
-schedule data, and STCP's live API is stop-centric: it answers "what's arriving
-at stop X", never "where is vehicle Y".
+**Split into 3a and 3b, and 3a is shipped.** The doc used to treat this as one
+indivisible feature blocked on new API work. Measuring it broke that apart: the
+question "where is *my* bus" needs nothing fetched at all, while "where is every
+bus on this line" is the part that needs the endpoint. They also want different
+renderings, which is the more interesting discovery — see below.
 
-It is *inferable*, and one field makes it possible: **`Arrival.trip_id`**. Poll
-every stop on a line and the same `trip_id` appears at consecutive stops with
-increasing ETAs — which brackets the bus between two known points. Interpolate
-along `GET /lines/{line}/shape` and you have a plausible position.
+##### Phase 3a — the bus you're following. **Shipped.**
 
-**Phase 2 already did most of this groundwork, and that bet paid off.**
-Resolving a live `trip_id` to a real trip with an ordered stop list — the
-version-field normalisation, the service-day disambiguation, and the fallback
-chain that make the join survive an id format nobody documents — now exists and
-is measured, as `GET /trips/{trip_id}/stops`. "Where is the bus now" reduces to
-*which pair of stops is it between*, which that stop list already answers.
-Doing Phase 2 first was not a detour from the live map; it was the first half
-of it.
+A bus glyph on the stops list, sitting at the stop it is heading for, in the
+line's colour. Modelled on Apple Maps' transit card, which does the same thing.
 
-**This belongs in the API, not the app.** Reasons:
+**It costs nothing.** `/trips/{trip_id}/stops` already returns `arrival_seconds`
+for every stop on the trip, and the selected departure already carries its ETA at
+the rider's stop. That is the whole input:
 
-- It costs one upstream call **per stop** — 30–50 per line, per refresh. Doing
-  that from every client instance is precisely what the API README's "be a good
-  citizen" section rules out. Server-side it happens once and is cached for
-  everyone.
-- The interpolation is real logic that wants unit tests, and the API repo
-  already has the shape data, the stop ordering and the test harness.
+```
+next stop = first i where scheduled(mine) − scheduled(i) ≤ ETA
+```
 
-Sketch: a `GET /lines/{line}/vehicles?direction_id=` endpoint returning inferred
-positions with an **explicit confidence/staleness field**, so the app can render
-an uncertain bus differently from a fresh one. Honesty about precision matters
-here — a smoothly gliding dot implies GPS we do not have.
+No polling, no new endpoint, no extra request. `LineDetailViewModel.nextStopIndex`
+is a pure function over data the screen had already fetched.
 
-The app side is then small: vehicle annotations on the Phase 2 map, tap one for
-a bottom card (line badge, destination, next stop, ETA).
+**Why a stop and not a point on the road.** The original sketch put a dot on the
+polyline, interpolated between two stops. That is buildable — `dist_traveled` is
+populated on 100% of both `stop_times` (850,629 rows) and `shapes` (97,972), so
+the geometry is exact arithmetic. It is also **overclaiming**. Consecutive stops
+on this network are a median of 1.0 minutes apart, and the input is a predicted
+arrival time. "Heading for this stop" is the honest resolution of what the data
+contains; a dot gliding along a road implies GPS that STCP has never given us.
+The list is the truthful rendering, and it happens to be the cheaper one.
 
-**Order mattered.** Phase 1 shipped a map worth its centre tab slot on its own;
-Phase 2 was additive on top of a screen that already worked. Phase 3 stays last
-— it is the only one that can't start here.
+**Two things it refuses to draw**, both for the same reason — a vehicle on screen
+is a claim that a vehicle exists there:
+
+- **A scheduled departure gets no glyph.** There is no bus behind a timetable
+  slot yet.
+- **Nor does a bus that hasn't started this run.** When the ETA exceeds the whole
+  scheduled run from the trip's first stop, the vehicle is still finishing an
+  earlier trip somewhere else. Pinning it to the terminus would read as "waiting
+  there", which is a statement about a bus nobody can see. One minute of slack,
+  since the ETA is a prediction and the run time is a timetable.
+
+**The assumption is Phase 2's, run backwards:** that the bus's current delay also
+applied over the stops behind it. A bus that lost four minutes in the last block
+reads as further back than it is. Acceptable at one-stop resolution; it would not
+be at metre resolution, which is the second argument for the list.
+
+##### The stops list, and what "More" reveals
+
+The list shows the stops ahead by default, because that is the rider's question.
+Behind that sits an Apple-Maps-style collapse: a "N previous stops" row with a
+dotted rail, the single immediately-preceding stop kept visible for context, and
+a **More** control that expands the rest — greyed, with a grey rail that turns the
+line's colour exactly at the rider's stop. That one junction is what says "you get
+on here".
+
+**The bus only appears once More is tapped.** It is always behind the rider, so
+it lives in precisely the half that control reveals; drawing it while collapsed
+would put a vehicle on a rail with no route above it.
+
+**Expanding scrolls back to the rider's stop.** Inserting a dozen rows above the
+scroll position otherwise shoves what they were reading off the bottom of the
+screen.
+
+##### Phase 3b — every bus on the line. Not built.
+
+`GET /lines/{line}/vehicles?direction_id=`, server-side.
+
+**The doc's cost estimate here was wrong, and it is what made this look
+expensive.** It said one upstream call per stop, 30–50 per line per refresh.
+Stops per line+direction really do run 38 (median) to 67 (max) — but a single
+stop's board sees **85–99 minutes ahead** and lists *every* bus of a line that
+will reach it. Measured 2026-08-16: line 305 at IPO4 returned 7 buses out to 62
+minutes; line 903 at BS1, 7 buses out to 99. So one stop near the end of a line
+reveals essentially the whole line, and 2–3 spread along it give every bus a
+reasonably near observation. **~3 calls per line, not 40.**
+
+Position then back-solves the same way 3a does, from each bus's absolute
+`estimated_arrival_time` — which is second-resolution, not minutes, so the
+arithmetic is finer than the display needs.
+
+Still server-side, for the reasons already given: the polling belongs behind one
+cache rather than in every client, and the inference wants unit tests next to the
+data. The open question is not cost any more, it is **which** stops to poll.
+
+##### Phase 3c — buses on the main map. Probably never.
+
+Cost scales with lines in view rather than with one line. Not worth it unless it
+is asked for.
+
 
 ### 11.2 Also later
 
