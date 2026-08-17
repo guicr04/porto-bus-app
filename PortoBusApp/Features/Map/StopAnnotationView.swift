@@ -33,7 +33,7 @@ struct StopAnnotationView: View {
     /// read as texture rather than clutter.
     private var dot: some View {
         Circle()
-            .fill(isFavorite ? Color.pink : Self.blue)
+            .fill(isFavorite ? Color.favorite : Self.blue)
             .frame(width: 7, height: 7)
             .overlay(Circle().stroke(.white, lineWidth: 1.2))
             .shadow(color: .black.opacity(0.25), radius: 1, y: 0.5)
@@ -48,7 +48,7 @@ struct StopAnnotationView: View {
             .frame(width: 26, height: 26)
             .background(badgeFill, in: Circle())
             .overlay(
-                Circle().stroke(isFavorite ? Color.pink : .black.opacity(0.12),
+                Circle().stroke(isFavorite ? Color.favorite : .black.opacity(0.12),
                                 lineWidth: isFavorite ? 2 : 0.5)
             )
             .shadow(color: .black.opacity(0.28), radius: 1.5, y: 0.5)

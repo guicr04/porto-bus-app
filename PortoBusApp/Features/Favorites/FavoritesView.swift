@@ -75,6 +75,12 @@ struct FavoritesScreen: View {
 /// A favorite's row: station name, and a preview of its soonest arrival
 /// (line badge, destination, ETA) — or a quiet "nothing right now" when the
 /// station has no live arrivals to show.
+///
+/// Rendered like Board's rows and the stop screens': badge, where it's going,
+/// and an ETA coloured by its tone. It used to carry a green dot and the word
+/// "live" beside the time — the indicator §7 records as *replaced* by
+/// tone-colouring, which every other screen had moved on from and this one
+/// hadn't.
 struct FavoriteRowView: View {
     let row: FavoriteRowDisplay
 
@@ -98,17 +104,10 @@ struct FavoriteRowView: View {
 
             Spacer(minLength: 8)
 
-            VStack(alignment: .trailing, spacing: 2) {
-                Text(row.etaText)
-                    .font(.title3.weight(.semibold))
-                    .monospacedDigit()
-                if row.isRealtime, row.line != nil {
-                    HStack(spacing: 3) {
-                        Circle().fill(.green).frame(width: 6, height: 6)
-                        Text("live").font(.caption2).foregroundStyle(.secondary)
-                    }
-                }
-            }
+            Text(row.etaText)
+                .font(.title3.weight(.semibold))
+                .monospacedDigit()
+                .foregroundStyle(Color(tone: row.tone))
         }
         .padding(.vertical, 4)
     }

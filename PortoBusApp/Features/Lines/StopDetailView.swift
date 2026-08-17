@@ -31,6 +31,7 @@ struct StopDetailView: View {
                     services.favorites.toggle(favoriteStop)
                 } label: {
                     Image(systemName: isFavorite ? "heart.fill" : "heart")
+                    .foregroundStyle(Color.favorite)
                 }
                 .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
             }

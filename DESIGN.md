@@ -395,6 +395,15 @@ A station that fails to load still appears, with a blank ETA, rather than
 disappearing from the list — same "empty isn't the same as broken" principle
 as §8.
 
+**The row renders like Board's and the stop screens'**: line badge, where that
+bus is going, and an ETA coloured by its tone. It did not, for a long time —
+it carried a green dot and the word "live" beside the time, the indicator §7
+records as having been *replaced* by tone-colouring. Every other screen had
+moved on and this one hadn't, which is worth noting as a failure mode rather
+than a typo: `BoardViewModel.arrivalTone(forStatus:)` existed the whole time
+and Favorites simply never called it. A shared helper only prevents drift on
+the screens that actually use it.
+
 ---
 
 ## 7. Colours
@@ -441,8 +450,24 @@ for the rare/theoretical case with no status at all):
   (inspired by transit apps that show it), decided against for now: just the
   coloured number.
 
-`BoardViewModel.arrivalTone(forStatus:)` is the one place this rule lives;
-Board and the shared stop screen both call it.
+`BoardViewModel.arrivalTone(forStatus:)` is the one place this rule lives.
+Board, the shared stop screen, the line detail and **Favorites** all call it —
+Favorites kept the old green dot and "live" caption for a long time after every
+other screen had moved on, which is exactly the drift a shared helper is
+supposed to prevent and didn't, because the helper was there and the screen
+simply wasn't using it.
+
+**The favourite colour — `Color.favorite`, one green everywhere.** The heart,
+the Board swipe action and the ring around a favourited stop on the map are one
+idea, so they are one colour. It is the app mark's own green taken deeper:
+`PortoBusMark.mint` is `#74DFB5`, the lower half of the ring, and
+`Color.favorite` is `#189E69` — the same hue, dark enough to use.
+
+The mint itself cannot do this job. Swipe-action labels are drawn white by the
+system and would sit on `#74DFB5` at about **1.6:1**; a 7pt dot in it vanishes
+against Apple's pale basemap. `#189E69` is ~3.4:1 against white, which carries
+a bold label and a small dot. Superseded: this was `.pink`, which belonged to
+nothing else in the app.
 
 ---
 
