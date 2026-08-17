@@ -17,6 +17,6 @@ struct FavoriteSwipeButton: View {
         } label: {
             Label(isFavorite ? "Unfavorite" : "Favorite", systemImage: isFavorite ? "heart.slash" : "heart")
         }
-        .tint(isFavorite ? .gray : .pink)
+        .tint(isFavorite ? .gray : .favorite)
     }
 }

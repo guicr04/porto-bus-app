@@ -19,19 +19,23 @@ struct FloatingTabBar: View {
         .shadow(color: .black.opacity(0.12), radius: 12, y: 4)
         .padding(.horizontal, 24)
         .frame(maxWidth: .infinity)
-        // A soft fade of the window background behind the bar, so list rows that
-        // scroll under it dissolve out rather than peeking through the gutter
-        // beside the capsule (DESIGN.md §5 — content scrolls under the bar).
-        .background(
-            LinearGradient(
-                colors: [Color(.systemBackground).opacity(0), Color(.systemBackground)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .padding(.top, -24)
-            .allowsHitTesting(false)
-        )
     }
+
+    // **Superseded: there was a gradient behind the bar.** It faded the window
+    // background in beneath the capsule so list rows scrolling under would
+    // dissolve rather than peek through the gutters either side of it.
+    //
+    // It was wrong in three ways at once, and the map made all three obvious:
+    // it painted *opaque* `systemBackground`, so it hid whatever was behind it
+    // rather than softening it; it spanned the full width, well past the
+    // capsule it was meant to sit behind; and it ended at the bar's own bottom
+    // edge instead of the screen's, leaving a hard horizontal seam with content
+    // visible below it. On a white list it was invisible and seemed fine. Over
+    // the map it read as a band across the screen.
+    //
+    // The bar is a floating pill over the content — that is the whole idea
+    // (DESIGN.md §5) — so it should draw nothing outside its own capsule. The
+    // capsule's own `.regularMaterial` is what separates it from what's behind.
 
     @ViewBuilder
     private func item(for tab: AppTab) -> some View {

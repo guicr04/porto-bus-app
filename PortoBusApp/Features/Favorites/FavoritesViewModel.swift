@@ -14,7 +14,11 @@ struct FavoriteRowDisplay: Identifiable, Hashable {
     let line: String?
     let destination: String?
     let etaText: String
-    let isRealtime: Bool
+    /// Colours the ETA, exactly as on Board and the stop screens. Replaces the
+    /// separate green "live" dot this row used to carry — see §7: whether a
+    /// stop is tracked at all barely varies in practice, so it carried almost
+    /// no information, while on-time-vs-delayed visibly does.
+    let tone: ArrivalTone
     let colorHex: String?
     let textColorHex: String?
 }
@@ -77,7 +81,7 @@ final class FavoritesViewModel {
                 line: soonest?.line,
                 destination: soonest?.destination,
                 etaText: soonest.map { BoardViewModel.etaText($0.arrivalMinutes) } ?? "—",
-                isRealtime: realtime.dataSource == "realtime",
+                tone: BoardViewModel.arrivalTone(forStatus: soonest?.status),
                 colorHex: soonest?.color,
                 textColorHex: soonest?.textColor
             )
@@ -89,7 +93,7 @@ final class FavoritesViewModel {
                 line: nil,
                 destination: nil,
                 etaText: "—",
-                isRealtime: false,
+                tone: .unknown,
                 colorHex: nil,
                 textColorHex: nil
             )

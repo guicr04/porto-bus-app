@@ -35,6 +35,20 @@ extension Color {
         self.init(.sRGB, red: r, green: g, blue: b, opacity: a)
     }
 
+    /// Favourited — the heart, the swipe action, and the ring around a
+    /// favourited stop on the map. One colour, so the three read as the same
+    /// idea.
+    ///
+    /// It is the app mark's own green (`PortoBusMark.mint`, `#74DFB5` — the
+    /// lower half of the ring), taken deeper at the same hue. The mint itself
+    /// is too light to use here: white swipe-action labels are set by the
+    /// system and would sit on it at about 1.6:1, and a 7pt dot in it
+    /// disappears against Apple's pale basemap. `#189E69` is the same hue at
+    /// ~3.4:1 against white, which carries a bold label and a small dot.
+    ///
+    /// Superseded: this was `.pink`, which belonged to nothing else in the app.
+    static let favorite = Color(hex: "#189E69") ?? .green
+
     /// Maps an arrival's on-time/delayed tone to the colour its ETA renders
     /// in. See `ArrivalTone` for why this replaced a separate live indicator.
     init(tone: ArrivalTone) {

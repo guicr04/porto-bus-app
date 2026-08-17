@@ -49,6 +49,7 @@ struct MapStopSheet: View {
             services.favorites.toggle(named)
         } label: {
             Image(systemName: isFavorite ? "heart.fill" : "heart")
+                    .foregroundStyle(Color.favorite)
         }
         .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
     }
