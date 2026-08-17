@@ -88,8 +88,14 @@ The Map ships Phases 1 and 2 (DESIGN.md §11.1):
   times are anchored on the one live ETA and rendered as the timetable estimates
   they are — never green.
 
-Phase 3 (live vehicle positions) is next, and is the only part still needing new
-work in the API. The Home Screen widget hasn't been started.
+- **Phase 3a** — where the bus you're following is right now: a glyph on the
+  stops list at the stop it's heading for, revealed with the previous stops
+  behind a "More" control. Inferred from data the screen already has, so it
+  costs no extra request. It won't draw a bus for a timetable-only departure,
+  or one that hasn't started its run.
+
+Phase 3b (every bus on a line at once) is what's left, and the only part still
+needing new work in the API. The Home Screen widget hasn't been started.
 
 Two screens from the original plan were built and then removed once real usage
 showed they were redundant — a combined single-line Departures view, and a

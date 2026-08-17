@@ -35,7 +35,11 @@ struct RouteStopDisplay: Identifiable, Hashable {
     let isTerminus: Bool
 }
 
-/// One stop on the journey ahead, preformatted.
+/// One stop on the trip, preformatted.
+///
+/// The **whole** trip, both sides of the rider's stop. The list hides the
+/// earlier half until asked — but the bus is behind the rider, so the data has
+/// to reach back far enough to place it.
 ///
 /// `clockText` is nil when the bus could not be resolved to a real trip. That
 /// is the honest empty — the stop order is still known, the times are not, and
@@ -49,6 +53,10 @@ struct JourneyStopDisplay: Identifiable, Hashable {
     let etaText: String?
     let tone: ArrivalTone
     let isOrigin: Bool
+    /// Before the rider's stop: this bus has already called here.
+    let isPast: Bool
+    /// The next stop this bus will reach — where the vehicle glyph goes.
+    let hasBus: Bool
     let isTimepoint: Bool
     let latitude: Double?
     let longitude: Double?
@@ -296,43 +304,82 @@ final class LineDetailViewModel {
             return []
         }
         let anchor = selected.etaMinutes ?? 0
-        let origin = trip.stops[index]
+        let originSeconds = trip.stops[index].arrivalSeconds
 
-        let head = JourneyStopDisplay(
-            id: origin.stopSequence,
-            name: origin.stopName,
-            clockText: nil,
-            etaText: selected.etaText,
-            tone: selected.tone,
-            isOrigin: true,
-            isTimepoint: origin.timepoint,
-            latitude: origin.stopLat,
-            longitude: origin.stopLon
-        )
+        // Only a tracked bus has a position worth claiming — a timetable slot
+        // has no vehicle behind it. (`departed` is impossible past the guard
+        // above: it is defined as having no selected departure at all.)
+        let busIndex: Int? = selected.isLive
+            ? Self.nextStopIndex(in: trip.stops, originIndex: index, etaMinutes: anchor)
+            : nil
 
-        let rest = trip.downstream(from: stop.stopCode, liveEtaMinutes: anchor).map { entry in
-            JourneyStopDisplay(
-                id: entry.stop.stopSequence,
-                name: entry.stop.stopName,
-                clockText: Self.clock(inMinutes: entry.etaMinutes),
-                etaText: nil,
-                // Never `.onTime`: green is reserved for numbers STCP is
-                // actually tracking, and none of these are.
-                tone: .unknown,
-                isOrigin: false,
-                isTimepoint: entry.stop.timepoint,
-                latitude: entry.stop.stopLat,
-                longitude: entry.stop.stopLon
+        return trip.stops.enumerated().map { position, s in
+            let isOrigin = position == index
+            let offsetMinutes = Double(s.arrivalSeconds - originSeconds) / 60
+            return JourneyStopDisplay(
+                id: s.stopSequence,
+                name: s.stopName,
+                clockText: isOrigin ? nil : Self.clock(inMinutes: anchor + offsetMinutes),
+                etaText: isOrigin ? selected.etaText : nil,
+                // Never `.onTime` away from the origin: green is reserved for
+                // numbers STCP is actually tracking, and none of these are.
+                tone: isOrigin ? selected.tone : .unknown,
+                isOrigin: isOrigin,
+                isPast: position < index,
+                hasBus: position == busIndex,
+                isTimepoint: s.timepoint,
+                latitude: s.stopLat,
+                longitude: s.stopLon
             )
         }
-        return [head] + rest
     }
 
-    /// The line's stops from the rider's onward, with no times at all.
+    /// Which stop the bus is heading for right now — Phase 3a, and the whole of
+    /// it (DESIGN.md §11.1).
+    ///
+    /// It needs nothing fetched. The bus is due at the rider's stop in
+    /// `etaMinutes`, and `stop_times` already says how long the run from every
+    /// earlier stop to theirs is scheduled to take. The first stop whose
+    /// remaining scheduled run still fits inside that ETA is the one the bus has
+    /// yet to reach:
+    ///
+    ///     next = first i where scheduled(mine) − scheduled(i) ≤ ETA
+    ///
+    /// Answering with a *stop* rather than a point on the road is the deliberate
+    /// part. Consecutive stops are about a minute apart and the ETA is a
+    /// prediction, so "which stop is it heading for" is the honest resolution of
+    /// what this data contains — a dot sliding along a road would imply GPS that
+    /// STCP has never given us.
+    ///
+    /// The assumption underneath is Phase 2's, run backwards: that the bus's
+    /// current delay also applied over the stops behind it. A bus that lost four
+    /// minutes in the last block reads as further back than it really is.
+    static func nextStopIndex(in stops: [ResolvedTripStop], originIndex: Int, etaMinutes: Double) -> Int? {
+        guard stops.indices.contains(originIndex), etaMinutes >= 0 else { return nil }
+        let originSeconds = stops[originIndex].arrivalSeconds
+        let ahead = etaMinutes * 60
+
+        // A bus further out than the entire run to the rider's stop has not
+        // started this trip — it is still finishing an earlier one somewhere
+        // else. Pinning it to the first stop would read as "waiting at the
+        // terminus", which is a claim about a vehicle we cannot see. One
+        // minute of slack, because the ETA is a prediction and the run time
+        // comes from a timetable.
+        let wholeRun = Double(originSeconds - stops[0].arrivalSeconds)
+        guard ahead <= wholeRun + 60 else { return nil }
+
+        // Walking forward finds the *earliest* stop still ahead of the bus,
+        // which is the one it reaches next.
+        return (0...originIndex).first { Double(originSeconds - stops[$0].arrivalSeconds) <= ahead }
+    }
+
+    /// The line's stops with no times at all, for when the bus could not be
+    /// identified. No vehicle either: without a resolved trip there is nothing
+    /// to place and nothing to place it against.
     private func untimedJourney() -> [JourneyStopDisplay] {
         guard let index = untimedStops.firstIndex(where: { $0.stopCode == stop.stopCode }) else { return [] }
-        return untimedStops[index...].map { s in
-            let isOrigin = s.stopCode == stop.stopCode
+        return untimedStops.enumerated().map { position, s in
+            let isOrigin = position == index
             return JourneyStopDisplay(
                 id: s.sequence,
                 name: s.stopName,
@@ -340,6 +387,8 @@ final class LineDetailViewModel {
                 etaText: isOrigin ? selected?.etaText : nil,
                 tone: isOrigin ? tone : .unknown,
                 isOrigin: isOrigin,
+                isPast: position < index,
+                hasBus: false,
                 isTimepoint: false,
                 latitude: s.lat,
                 longitude: s.lon
