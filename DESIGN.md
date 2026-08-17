@@ -199,6 +199,18 @@ Details worth copying from the reference, all implemented:
   Reserving space with a `safeAreaInset` on the *root* view doesn't reach a
   `List` inside a `NavigationStack` two levels down — it has to be applied to
   the scrollable content itself, or the last row renders under the bar.
+- **The bar draws nothing outside its own capsule.** It briefly had a full-width
+  gradient behind it, fading the window background in so rows scrolling under
+  would dissolve rather than peek through the gutters beside the pill. That was
+  wrong three ways at once: the gradient was *opaque* `systemBackground` rather
+  than a softening, it spanned the full width well past the capsule, and it
+  ended at the bar's own bottom edge instead of the screen's — leaving a hard
+  horizontal seam with content still visible below it. Against a white list it
+  was invisible and looked fine; over the Map it read as a band across the
+  screen, and over the grouped-background screens as a lighter strip. A pill
+  that floats over content is the entire idea here, so the capsule's own
+  `.regularMaterial` is what separates it from what's behind. Rows passing
+  through the gutters are the normal, correct behaviour of a floating bar.
 
 **Cost, confirmed real:** a custom floating bar means hand-rolling what
 `TabView` gives free — selection state, per-tab navigation stacks, and correct
